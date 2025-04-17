@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="m_health_am">
+        <item name="android:textSize">100sp</item>
+        <item name="android:textColor">#D9D9D9</item>
+        <item name="android:shadowColor">#0F000000</item>
+        <item name="android:shadowDx">0</item>
+        <item name="android:shadowDy">2</item>
+        <item name="android:shadowRadius">20</item>
+    </style>
+    <style name="CircleImageView" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">50%</item>
+    </style>
+
+    <style name="set_your_lo">
+    <item name="android:textSize">20sp</item>
+    <item name="android:letterSpacing">0.01</item>
+    <item name="android:textColor">#3E4958</item>
+    </style>
+    <style name="intro_desc">
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">#3E4958</item>
+    </style>
+</resources>

@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">mHEALTH</string>
+    <string name="m_health_am">m-HEALTH\nAmbulance</string>
+    <string name="intro">m-HEALTH\nAmbulance</string>
+    <string name="intro_desc">m-Health App is a ambulance transportation App that helps you access services very fast to any Hospital in-case of emergency with only clicks</string>
+</resources>
