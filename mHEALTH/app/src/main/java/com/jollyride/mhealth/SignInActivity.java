@@ -1,0 +1,157 @@
+package com.jollyride.mhealth;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.text.TextUtils;
+import android.util.Log;
+import android.util.Patterns;
+import android.view.View;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import androidx.activity.OnBackPressedCallback;
+import androidx.annotation.NonNull;
+
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.firebase.FirebaseException;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.PhoneAuthCredential;
+import com.google.firebase.auth.PhoneAuthOptions;
+import com.google.firebase.auth.PhoneAuthProvider;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.jollyride.mhealth.R;
+
+import java.util.concurrent.TimeUnit;
+
+public class SignInActivity extends BaseActivity {
+
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_sign_in);
+
+        this.getOnBackPressedDispatcher().addCallback(this,
+                new OnBackPressedCallback(true) {
+                    @Override
+                    public void handleOnBackPressed() {
+                        Intent intent = new Intent(SignInActivity.this, MainActivity.class);
+                        startActivity(intent);
+                        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                        finish();
+                    }
+                });
+
+
+
+        TextInputEditText userNameEditText = findViewById(R.id.userNameEditText);
+        TextInputEditText passwordEditText = findViewById(R.id.passwordEditText);
+        TextView signInButtom  = findViewById(R.id.signInButtom);
+        TextView goToSignUp  = findViewById(R.id.goToSignUp);
+
+        signInButtom.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String userName = userNameEditText.getText().toString().trim();
+                String password = passwordEditText.getText().toString().trim();
+                signInUser(userName,password);
+            }
+        });
+
+        goToSignUp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(SignInActivity.this, SignUpActivity.class);
+                startActivity(intent);
+                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                finish();
+            }
+        });
+    }
+
+    public void signInUser(String identifier, String password) {
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        if (Patterns.PHONE.matcher(identifier).matches()) {
+            // 📱 Identifier is phone number – start OTP login
+            startPhoneLogin(identifier);
+        } else if (Patterns.EMAIL_ADDRESS.matcher(identifier).matches()) {
+            // 📧 Identifier is email – login directly
+            mAuth.signInWithEmailAndPassword(identifier, password)
+                    .addOnSuccessListener(authResult -> {
+                        Toast.makeText(this, "Logged in via email", Toast.LENGTH_SHORT).show();
+                        // Proceed to next activity
+                    })
+                    .addOnFailureListener(e -> Toast.makeText(this, "Login failed: " + e.getMessage(), Toast.LENGTH_SHORT).show());
+        } else {
+            // 🤔 Assume it's a username – lookup in Firestore
+            db.collection("users")
+                    .whereEqualTo("userName", identifier)
+                    .get()
+                    .addOnSuccessListener(queryDocumentSnapshots -> {
+                        if (!queryDocumentSnapshots.isEmpty()) {
+                            String email = queryDocumentSnapshots.getDocuments().get(0).getString("email");
+                            String phone = queryDocumentSnapshots.getDocuments().get(0).getString("phoneNo");
+
+                            if (!TextUtils.isEmpty(email)) {
+                                // 🔐 Sign in with email and password
+                                mAuth.signInWithEmailAndPassword(email, password)
+                                        .addOnSuccessListener(authResult -> {
+                                            //Toast.makeText(this, "Logged in with username via email", Toast.LENGTH_SHORT).show();
+                                            Log.d("Sign In", "Logged in with username via email");
+                                            Intent intent = new Intent(SignInActivity.this, HomeActivity.class);
+                                            startActivity(intent);
+                                            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                                            finish();
+                                        })
+                                        .addOnFailureListener(e ->{
+                                            Toast.makeText(this, "Login failed: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                                            Log.e("Sign In","Login failed: " + e.getMessage());
+                                        });
+                            } else if (!TextUtils.isEmpty(phone)) {
+                                // 🔄 Fallback to phone login
+                                startPhoneLogin(phone);
+                            } else {
+                                Toast.makeText(this, "No valid login method found for username", Toast.LENGTH_SHORT).show();
+                            }
+                        } else {
+                            Toast.makeText(this, "Username not found", Toast.LENGTH_SHORT).show();
+                        }
+                    })
+                    .addOnFailureListener(e -> Toast.makeText(this, "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show());
+        }
+    }
+    private void startPhoneLogin(String phoneNumber) {
+        PhoneAuthOptions options = PhoneAuthOptions.newBuilder(FirebaseAuth.getInstance())
+                .setPhoneNumber(phoneNumber)
+                .setTimeout(60L, TimeUnit.SECONDS)
+                .setActivity(this)
+                .setCallbacks(new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
+                    @Override
+                    public void onVerificationCompleted(PhoneAuthCredential credential) {
+                        FirebaseAuth.getInstance().signInWithCredential(credential)
+                                .addOnSuccessListener(authResult -> {
+                                    Toast.makeText(SignInActivity.this, "Phone login successful!", Toast.LENGTH_SHORT).show();
+                                });
+                    }
+
+                    @Override
+                    public void onVerificationFailed(FirebaseException e) {
+                        //Toast.makeText(SignInActivity.this, "Verification failed: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                        Log.e("Sign In","Verification failed: " + e.getMessage());
+                    }
+
+                    @Override
+                    public void onCodeSent(@NonNull String verificationId,
+                                           @NonNull PhoneAuthProvider.ForceResendingToken token) {
+                        // Save verificationId to verify later
+                        Toast.makeText(SignInActivity.this, "OTP sent to your phone.", Toast.LENGTH_SHORT).show();
+                    }
+                }).build();
+
+        PhoneAuthProvider.verifyPhoneNumber(options);
+    }
+
+
+}

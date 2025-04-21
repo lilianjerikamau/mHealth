@@ -1,4 +1,4 @@
-package com.example.mhealth;
+package com.jollyride.mhealth;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,15 +8,10 @@ import android.view.animation.AnimationSet;
 import android.view.animation.RotateAnimation;
 import android.view.animation.ScaleAnimation;
 import android.widget.ImageView;
-import android.widget.TextView;
 
-import androidx.activity.EdgeToEdge;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
+import com.jollyride.mhealth.R;
 
-public class WelcomeActivity extends AppCompatActivity {
+public class WelcomeActivity extends BaseActivity {
 
     private static final int WELCOME_DURATION = 3000; // 3 seconds
 
@@ -56,6 +51,7 @@ public class WelcomeActivity extends AppCompatActivity {
 
         new Handler().postDelayed(() -> {
             startActivity(new Intent(WelcomeActivity.this, SignInActivity.class));
+            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
             finish();
         }, WELCOME_DURATION);
     }

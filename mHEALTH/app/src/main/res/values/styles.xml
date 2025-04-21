@@ -22,4 +22,9 @@
         <item name="android:textSize">18sp</item>
         <item name="android:textColor">#3E4958</item>
     </style>
+    <style name="signin_username_phone">
+        <item name="android:textSize">13sp</item>
+        <item name="android:textColor">#3E4958</item>
+    </style>
+
 </resources>

@@ -1,18 +1,21 @@
-package com.example.mhealth;
+package com.jollyride.mhealth;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
-
-import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Handler;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
-import android.view.animation.ScaleAnimation;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-public class SplashActivity extends AppCompatActivity {
+import androidx.security.crypto.EncryptedSharedPreferences;
+import androidx.security.crypto.MasterKeys;
+
+import com.jollyride.mhealth.R;
+
+public class SplashActivity extends BaseActivity {
 
     private static final int SPLASH_DURATION = 4000; // 4 seconds
 
@@ -58,8 +61,48 @@ public class SplashActivity extends AppCompatActivity {
         logo.startAnimation(blinkAnimation); // or use title.startAnimation(blinkAnimation);
 
         new Handler().postDelayed(() -> {
-            startActivity(new Intent(SplashActivity.this, MainActivity.class));
-            finish();
+            loadLoginDetails();
         }, SPLASH_DURATION);
     }
+
+    private void loadLoginDetails() {
+        try {
+            String masterKeyAlias = MasterKeys.getOrCreate(MasterKeys.AES256_GCM_SPEC);
+
+            SharedPreferences sharedPreferences = EncryptedSharedPreferences.create(
+                    "secure_login_prefs",
+                    masterKeyAlias,
+                    this,
+                    EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
+                    EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
+            );
+
+            if (sharedPreferences.contains("username")){
+                startActivity(new Intent(SplashActivity.this, SignInActivity.class));
+                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                finish();
+            }else{
+                startActivity(new Intent(SplashActivity.this, MainActivity.class));
+                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                finish();
+            }
+
+            /*if (sharedPreferences.contains("username") &&
+                    sharedPreferences.contains("phone") &&
+                    sharedPreferences.contains("password")) {
+
+                String savedUsername = sharedPreferences.getString("username", "");
+                String savedPhone = sharedPreferences.getString("phone", "");
+                String savedPassword = sharedPreferences.getString("password", "");
+
+                usernameEditText.setText(savedUsername);
+                phoneEditText.setText(savedPhone);
+                passwordEditText.setText(savedPassword);
+            }*/
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 }

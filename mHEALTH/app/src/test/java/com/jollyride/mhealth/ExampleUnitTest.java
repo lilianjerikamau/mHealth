@@ -1,4 +1,4 @@
-package com.example.mhealth;
+package com.jollyride.mhealth;
 
 import org.junit.Test;
 

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "539064513363",
+    "project_id": "mhealth-b054c",
+    "storage_bucket": "mhealth-b054c.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:539064513363:android:1302bcb83ce80b8e2a67a6",
+        "android_client_info": {
+          "package_name": "com.jollyride.mhealth"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCjOAcY4eAcE2CUAJuiKg2tLA4AHCP1M-A"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
