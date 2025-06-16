@@ -12,6 +12,7 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -42,6 +43,8 @@ public class SignUpActivity extends BaseActivity {
     String verificationIdGlobal; // store OTP verification ID
     private View bottomLayout;
     private int originalBottomMargin;
+    ProgressBar progressBar;
+    MaterialButton registerButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,7 +74,8 @@ public class SignUpActivity extends BaseActivity {
         TextInputEditText dobEditText = findViewById(R.id.dobEditText);
         TextInputEditText addressEditText = findViewById(R.id.addressEditText);
         TextInputEditText passwordEditText = findViewById(R.id.passwordEditText);
-        MaterialButton registerButton = findViewById(R.id.registerButton);
+        progressBar = findViewById(R.id.progressBar);
+        registerButton = findViewById(R.id.registerButton);
         TextView goToSignIn  = findViewById(R.id.goToSignIn);
 
         // Save the original bottom margin for later use
@@ -128,6 +132,8 @@ public class SignUpActivity extends BaseActivity {
         registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                registerButton.setVisibility(View.GONE);
+                progressBar.setVisibility(View.VISIBLE);
                 String fullName = fullNameEditText.getText().toString().trim();
                 String userName = userNameEditText.getText().toString().trim();
                 String phoneNo = phoneNoEditText.getText().toString().trim();
@@ -138,11 +144,6 @@ public class SignUpActivity extends BaseActivity {
                 String address = addressEditText.getText().toString().trim();
                 String password = passwordEditText.getText().toString().trim();
                 signUpUser(fullName,userName,phoneNo,email,gender,bloodGroup,dob,address,password);
-                Intent intent = new Intent(SignUpActivity.this, VerifyActivity.class);
-                intent.putExtra("phoneNo",phoneNo.toString());
-                startActivity(intent);
-                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
-                finish();
             }
         });
 
@@ -211,7 +212,14 @@ public class SignUpActivity extends BaseActivity {
                     .addOnCompleteListener(task -> {
                         if (task.isSuccessful()) {
                             saveUserToFirestore(userDetails);
+                            Intent intent = new Intent(SignUpActivity.this, VerifyActivity.class);
+                            intent.putExtra("phoneNo",phoneNo.toString());
+                            startActivity(intent);
+                            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                            finish();
                         } else {
+                            registerButton.setVisibility(View.VISIBLE);
+                            progressBar.setVisibility(View.GONE);
                             Log.e("Sign Up", "Signup Failed: " + task.getException().getMessage());
                         }
                     });
@@ -229,12 +237,19 @@ public class SignUpActivity extends BaseActivity {
                                     .addOnCompleteListener(task -> {
                                         if (task.isSuccessful()) {
                                             saveUserToFirestore(userDetails);
+                                            Intent intent = new Intent(SignUpActivity.this, VerifyActivity.class);
+                                            intent.putExtra("phoneNo",phoneNo.toString());
+                                            startActivity(intent);
+                                            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                                            finish();
                                         }
                                     });
                         }
 
                         @Override
                         public void onVerificationFailed(FirebaseException e) {
+                            registerButton.setVisibility(View.VISIBLE);
+                            progressBar.setVisibility(View.GONE);
                             Log.e("Sign Up","Verification Failed: " + e.getMessage());
                         }
 
@@ -252,6 +267,8 @@ public class SignUpActivity extends BaseActivity {
         }
 
         if(TextUtils.isEmpty(email) && TextUtils.isEmpty(phoneNo)){
+            registerButton.setVisibility(View.VISIBLE);
+            progressBar.setVisibility(View.GONE);
             Toast.makeText(this, "Please enter either email or phone number", Toast.LENGTH_SHORT).show();
         }
     }

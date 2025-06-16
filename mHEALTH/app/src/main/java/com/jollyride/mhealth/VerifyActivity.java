@@ -18,6 +18,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.activity.OnBackPressedCallback;
@@ -62,6 +63,8 @@ public class VerifyActivity extends BaseActivity {
             String phoneNo = getIntent().getStringExtra("phoneNo");
             enable_loca.setText("A code has been sent to "+phoneNo+" via SMS");
         }catch (Exception e){}
+
+        ImageView backButton = findViewById(R.id.backButton);
         MaterialButton callButton = findViewById(R.id.callButton);
 
         callButton.setVisibility(View.GONE);
@@ -119,6 +122,13 @@ public class VerifyActivity extends BaseActivity {
             View underline = ((ViewGroup) digit.getParent()).getChildAt(1);
             underline.setBackgroundResource(R.color.underline_error); // switch to red
         }*/
+
+        backButton.setOnClickListener(v -> {
+            Intent intent = new Intent(VerifyActivity.this, SignUpActivity.class);
+            startActivity(intent);
+            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+            finish();
+        });
 
 
     }

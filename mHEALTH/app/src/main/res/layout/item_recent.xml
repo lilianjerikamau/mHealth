@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingVertical="12dp"
+    android:paddingHorizontal="16dp">
+
+    <TextView
+        android:id="@+id/destinationName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Destination Name"
+        android:textSize="20sp"
+        android:fontFamily="@font/inter_medium"
+        android:textColor="@color/main1" />
+    <TextView
+        android:id="@+id/destinationAddress"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/inter_medium"
+        android:text="Destination Address"
+        android:textSize="16sp"
+        android:textColor="@color/main1" />
+
+    <!-- Custom bottom line -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="8dp"
+        android:background="@color/main1"/>
+</LinearLayout>

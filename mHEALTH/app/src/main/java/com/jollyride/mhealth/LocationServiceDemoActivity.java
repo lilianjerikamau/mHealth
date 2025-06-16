@@ -7,8 +7,6 @@ import android.view.MotionEvent;
 
 import androidx.activity.OnBackPressedCallback;
 
-import com.jollyride.mhealth.R;
-
 public class LocationServiceDemoActivity extends BaseActivity {
 
     private GestureDetector gestureDetector;
@@ -71,7 +69,7 @@ public class LocationServiceDemoActivity extends BaseActivity {
         }
     }
     private void onSwipeLeft() {
-        Intent intent = new Intent(LocationServiceDemoActivity.this, HomeActivity.class);
+        Intent intent = new Intent(LocationServiceDemoActivity.this, SignInActivity.class);
         startActivity(intent);
         overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
 

@@ -3,6 +3,11 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:allowBackup="true"
@@ -13,39 +18,67 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MHEALTH"
+        android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
-            android:name="com.jollyride.mhealth.HomeActivity"
+            android:name=".DriverAcceptRideActivity"
             android:exported="false" />
         <activity
-            android:name="com.jollyride.mhealth.LocationServiceDemoActivity"
+            android:name=".SearchingAmbulanceActivity"
             android:exported="false" />
         <activity
-            android:name="com.jollyride.mhealth.RideDemoActivity"
+            android:name=".AddressSearchActivity"
+            android:exported="false" />
+
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyCrA2b_9tZuMRuk6xr8ruyyfrn0uDbHhVw" />
+
+        <activity
+            android:name=".RideNavigationActivity"
             android:exported="false" />
         <activity
-            android:name="com.jollyride.mhealth.BookingDemoActivity"
+            android:name=".RiderReceiptActivity"
             android:exported="false" />
         <activity
-            android:name="com.jollyride.mhealth.VerifyActivity"
+            android:name=".DriverHomeActivity"
             android:exported="false" />
         <activity
-            android:name="com.jollyride.mhealth.SignUpActivity"
+            android:name=".RiderHomeActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".LocationServiceDemoActivity"
             android:exported="false" />
         <activity
-            android:name="com.jollyride.mhealth.SignInActivity"
+            android:name=".RideDemoActivity"
             android:exported="false" />
         <activity
-            android:name="com.jollyride.mhealth.WelcomeActivity"
+            android:name=".BookingDemoActivity"
             android:exported="false" />
         <activity
-            android:name="com.jollyride.mhealth.LocationActivity"
+            android:name=".VerifyActivity"
             android:exported="false" />
         <activity
-            android:name="com.jollyride.mhealth.BenefitActivity"
+            android:name=".SignUpActivity"
             android:exported="false" />
         <activity
-            android:name="com.jollyride.mhealth.SplashActivity"
+            android:name=".SignInActivity"
+            android:exported="false" />
+        <activity
+            android:name=".WelcomeActivity"
+            android:exported="false" />
+        <activity
+            android:name=".LocationActivity"
+            android:exported="false" />
+        <activity
+            android:name=".BenefitActivity"
+            android:exported="false" />
+        <activity
+            android:name=".SplashActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -53,7 +86,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.jollyride.mhealth.MainActivity" />
+        <activity android:name=".MainActivity" />
     </application>
 
 </manifest>

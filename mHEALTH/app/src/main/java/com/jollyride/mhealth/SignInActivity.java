@@ -6,12 +6,14 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.FirebaseException;
 import com.google.firebase.auth.FirebaseAuth;
@@ -19,12 +21,13 @@ import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthOptions;
 import com.google.firebase.auth.PhoneAuthProvider;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.jollyride.mhealth.R;
 
 import java.util.concurrent.TimeUnit;
 
 public class SignInActivity extends BaseActivity {
 
+    MaterialButton signInButtom;
+    ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +49,9 @@ public class SignInActivity extends BaseActivity {
 
         TextInputEditText userNameEditText = findViewById(R.id.userNameEditText);
         TextInputEditText passwordEditText = findViewById(R.id.passwordEditText);
-        TextView signInButtom  = findViewById(R.id.signInButtom);
+        progressBar = findViewById(R.id.progressBar);
+        signInButtom  = findViewById(R.id.signInButtom);
+        TextView signInDriverButtom  = findViewById(R.id.signInDriverButtom);
         TextView goToSignUp  = findViewById(R.id.goToSignUp);
 
         signInButtom.setOnClickListener(new View.OnClickListener() {
@@ -54,7 +59,17 @@ public class SignInActivity extends BaseActivity {
             public void onClick(View v) {
                 String userName = userNameEditText.getText().toString().trim();
                 String password = passwordEditText.getText().toString().trim();
-                signInUser(userName,password);
+                signInButtom.setVisibility(View.GONE);
+                progressBar.setVisibility(View.VISIBLE);
+                signInUser(userName,password,"rider");
+            }
+        });
+        signInDriverButtom.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String userName = userNameEditText.getText().toString().trim();
+                String password = passwordEditText.getText().toString().trim();
+                signInUser(userName,password,"driver");
             }
         });
 
@@ -69,7 +84,7 @@ public class SignInActivity extends BaseActivity {
         });
     }
 
-    public void signInUser(String identifier, String password) {
+    public void signInUser(String identifier, String password, String userType) {
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
@@ -83,7 +98,11 @@ public class SignInActivity extends BaseActivity {
                         Toast.makeText(this, "Logged in via email", Toast.LENGTH_SHORT).show();
                         // Proceed to next activity
                     })
-                    .addOnFailureListener(e -> Toast.makeText(this, "Login failed: " + e.getMessage(), Toast.LENGTH_SHORT).show());
+                    .addOnFailureListener(e -> {
+                        signInButtom.setVisibility(View.VISIBLE);
+                        progressBar.setVisibility(View.GONE);
+                        Toast.makeText(this, "Login failed: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    });
         } else {
             // 🤔 Assume it's a username – lookup in Firestore
             db.collection("users")
@@ -100,12 +119,21 @@ public class SignInActivity extends BaseActivity {
                                         .addOnSuccessListener(authResult -> {
                                             //Toast.makeText(this, "Logged in with username via email", Toast.LENGTH_SHORT).show();
                                             Log.d("Sign In", "Logged in with username via email");
-                                            Intent intent = new Intent(SignInActivity.this, HomeActivity.class);
-                                            startActivity(intent);
-                                            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
-                                            finish();
+                                            if(userType.equals("rider")) {
+                                                Intent intent = new Intent(SignInActivity.this, RiderHomeActivity.class);
+                                                startActivity(intent);
+                                                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                                                finish();
+                                            }else{
+                                                Intent intent = new Intent(SignInActivity.this, DriverHomeActivity.class);
+                                                startActivity(intent);
+                                                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                                                finish();
+                                            }
                                         })
                                         .addOnFailureListener(e ->{
+                                            signInButtom.setVisibility(View.VISIBLE);
+                                            progressBar.setVisibility(View.GONE);
                                             Toast.makeText(this, "Login failed: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                                             Log.e("Sign In","Login failed: " + e.getMessage());
                                         });
@@ -113,13 +141,21 @@ public class SignInActivity extends BaseActivity {
                                 // 🔄 Fallback to phone login
                                 startPhoneLogin(phone);
                             } else {
+                                signInButtom.setVisibility(View.VISIBLE);
+                                progressBar.setVisibility(View.GONE);
                                 Toast.makeText(this, "No valid login method found for username", Toast.LENGTH_SHORT).show();
                             }
                         } else {
+                            signInButtom.setVisibility(View.VISIBLE);
+                            progressBar.setVisibility(View.GONE);
                             Toast.makeText(this, "Username not found", Toast.LENGTH_SHORT).show();
                         }
                     })
-                    .addOnFailureListener(e -> Toast.makeText(this, "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show());
+                    .addOnFailureListener(e -> {
+                        signInButtom.setVisibility(View.VISIBLE);
+                        progressBar.setVisibility(View.GONE);
+                        Toast.makeText(this, "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    });
         }
     }
     private void startPhoneLogin(String phoneNumber) {
@@ -138,6 +174,8 @@ public class SignInActivity extends BaseActivity {
 
                     @Override
                     public void onVerificationFailed(FirebaseException e) {
+                        signInButtom.setVisibility(View.VISIBLE);
+                        progressBar.setVisibility(View.GONE);
                         //Toast.makeText(SignInActivity.this, "Verification failed: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                         Log.e("Sign In","Verification failed: " + e.getMessage());
                     }

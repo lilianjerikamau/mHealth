@@ -4,9 +4,11 @@
     <color name="white">#FFFFFFFF</color>
     <color name="main1">#3E4958</color>
     <color name="main2">#BBD9E2</color>
+    <color name="gray">#97ADB6</color>
     <color name="underline_focused">#6200EE</color> <!-- purple -->
     <color name="underline_filled">#333333</color>
     <color name="underline_default">#AAAAAA</color>
     <color name="underline_error">#FF0000</color>
+    <color name="route_color">#1a73e8</color>
 
 </resources>
