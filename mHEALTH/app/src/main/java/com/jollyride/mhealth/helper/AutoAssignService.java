@@ -7,59 +7,54 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.GeoPoint;
 
-import java.util.HashMap;
-import java.util.Map;
-
 public class AutoAssignService {
 
-    public static void assignRideToDriver(String driverId, GeoPoint driverLoc, GeoPoint preferredDest) {
+    public static void assignRideToDriver(String driverId, GeoPoint driverLocation, GeoPoint preferredDestination) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
         db.collection("rides")
                 .whereEqualTo("status", "requested")
-                .addSnapshotListener((value, error) -> {
-                    if (error != null || value == null) return;
+                .get()
+                .addOnSuccessListener(rides -> {
+                    for (DocumentSnapshot ride : rides) {
+                        GeoPoint riderDest = ride.getGeoPoint("destination");
+                        String rideDriverId = ride.contains("driverId") ? ride.getString("driverId") : null;
+                        Boolean manuallyAssigned = ride.contains("manuallyAssigned") ? ride.getBoolean("manuallyAssigned") : false;
 
-                    for (DocumentSnapshot doc : value.getDocuments()) {
-                        GeoPoint pickup = doc.getGeoPoint("pickupLocation");
-                        GeoPoint destination = doc.getGeoPoint("destination");
+                        // ✅ Skip manually assigned rides
+                        if (Boolean.TRUE.equals(manuallyAssigned)) {
+                            continue;
+                        }
 
-                        if (pickup == null || destination == null) continue;
+                        if (riderDest != null && preferredDestination != null) {
+                            float[] results = new float[1];
+                            Location.distanceBetween(
+                                    riderDest.getLatitude(), riderDest.getLongitude(),
+                                    preferredDestination.getLatitude(), preferredDestination.getLongitude(),
+                                    results
+                            );
 
-                        if (isNearby(driverLoc, pickup) && isRouteMatch(preferredDest, destination)) {
-                            String rideId = doc.getId();
+                            boolean isDestinationNearby = results[0] < 1000; // 1km
+                            boolean isUnassigned = (rideDriverId == null || rideDriverId.isEmpty());
 
-                            Map<String, Object> update = new HashMap<>();
-                            update.put("driverId", driverId);
-                            update.put("status", "assigned");
-
-                            db.collection("rides").document(rideId).update(update)
-                                    .addOnSuccessListener(aVoid ->
-                                            Log.d("AutoAssign", "Ride assigned to driver " + driverId));
-                            break; // assign only one
+                            if (isDestinationNearby && isUnassigned) {
+                                db.collection("rides").document(ride.getId())
+                                        .update(
+                                                "status", "assigned",
+                                                "driverId", driverId
+                                        )
+                                        .addOnSuccessListener(aVoid -> {
+                                            db.collection("availableDrivers").document(driverId)
+                                                    .update("available", false);
+                                            Log.d("AutoAssignService", "Ride auto-assigned to driver: " + driverId);
+                                        })
+                                        .addOnFailureListener(e ->
+                                                Log.e("AutoAssignService", "Failed to assign ride: " + e.getMessage()));
+                                break; // assign only one ride
+                            }
                         }
                     }
-                });
-    }
-
-    private static boolean isNearby(GeoPoint a, GeoPoint b) {
-        float[] results = new float[1];
-        Location.distanceBetween(
-                a.getLatitude(), a.getLongitude(),
-                b.getLatitude(), b.getLongitude(),
-                results
-        );
-        return results[0] < 3000; // 3km
-    }
-
-    private static boolean isRouteMatch(GeoPoint a, GeoPoint b) {
-        float[] results = new float[1];
-        Location.distanceBetween(
-                a.getLatitude(), a.getLongitude(),
-                b.getLatitude(), b.getLongitude(),
-                results
-        );
-        return results[0] < 5000; // 5km
+                })
+                .addOnFailureListener(e -> Log.e("AutoAssignService", "Error fetching rides: " + e.getMessage()));
     }
 }
-

@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/main2"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@color/main2"
+        android:padding="16dp"
+        android:clipToPadding="false"
+        android:clipChildren="false">
+
+        <!-- Title -->
+        <TextView
+            android:id="@+id/feedbackTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Send Feedback"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:textColor="#3B4B58"
+            android:layout_gravity="center_horizontal"
+            android:paddingBottom="24dp"/>
+
+        <!-- Ambulance + H icon (center) -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_gravity="center_horizontal"
+            android:paddingBottom="24dp"
+            android:gravity="center_vertical">
+
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/ambulance"
+            android:contentDescription="Ambulance"/>
+
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/ic_hospital_marker"
+                android:contentDescription="Ambulance"/>
+        </LinearLayout>
+
+        <!-- Feedback container -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#B2D1DC"
+            android:orientation="vertical"
+            android:padding="16dp"
+            android:backgroundTint="#B2D1DC"
+            android:clipToOutline="true"
+            android:layout_marginBottom="24dp"
+            android:clipChildren="false">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:paddingBottom="16dp">
+
+                <ImageView
+                    android:id="@+id/driverImage"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:src="@drawable/ic_user"
+                android:scaleType="centerCrop"
+                android:background="@drawable/circle_bg"
+                android:contentDescription="Driver"/>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginStart="12dp"
+                    android:layout_marginLeft="12dp">
+
+                    <TextView
+                        android:id="@+id/driverName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Simon Chao"
+                        android:textColor="#3B4B58"
+                        android:textStyle="bold"
+                        android:textSize="18sp"/>
+
+                    <TextView
+                        android:id="@+id/driverSerial"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Serial: T728"
+                        android:textColor="#3B4B58"
+                        android:textSize="14sp"
+                        android:textStyle="bold"/>
+                </LinearLayout>
+            </LinearLayout>
+
+            <!-- Rating Bar -->
+            <RatingBar
+                android:id="@+id/ratingBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:numStars="5"
+                android:stepSize="1"
+                android:progressTint="#3B4B58"
+                android:layout_gravity="center_horizontal"
+                android:isIndicator="false"/>
+
+            <TextView
+                android:id="@+id/ratingDescription"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Excellent"
+                android:textColor="#3B4B58"
+                android:layout_gravity="center_horizontal"
+                android:paddingTop="4dp"/>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/messageInputLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="24dp"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                app:boxStrokeColor="#A1A9B1"
+                app:boxBackgroundMode="outline"
+                app:boxStrokeWidth="2dp"
+                app:boxBackgroundColor="@color/bage">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/messageEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="120dp"
+                    android:hint="Message"
+                    android:textColorHint="#A1A9B1"
+                    android:gravity="top"
+                    android:inputType="textMultiLine"
+                    android:scrollbars="vertical"
+                    android:padding="12dp"
+                    android:backgroundTint="@android:color/transparent" />  <!-- Transparent so no overlap -->
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+
+
+        <com.google.android.material.button.MaterialButton
+                android:id="@+id/rateButton"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_alignParentBottom="true"
+                android:textStyle="bold"
+                android:backgroundTint="@color/main1"
+                android:textColor="@color/main2"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="16dp"
+                android:text="Rate"
+                android:textSize="20sp"
+                app:cornerRadius="18dp" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+</ScrollView>

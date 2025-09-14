@@ -10,5 +10,8 @@
     <color name="underline_default">#AAAAAA</color>
     <color name="underline_error">#FF0000</color>
     <color name="route_color">#1a73e8</color>
+    <color name="vibrant_green">#4CAF50</color>
+    <color name="bage">#D9D9D9</color>
+    <color name="pink">#F2C7C7</color>
 
 </resources>

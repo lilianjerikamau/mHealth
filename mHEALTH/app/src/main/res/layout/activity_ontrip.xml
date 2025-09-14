@@ -1,0 +1,142 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/main2">
+
+    <!-- Top Title -->
+    <TextView
+        android:id="@+id/txtTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="On Trip"
+        android:textColor="#374151"
+        android:textStyle="bold"
+        android:textSize="20sp"
+        android:layout_marginTop="40dp"
+        android:layout_centerHorizontal="true" />
+
+    <!-- Menu Button -->
+    <ImageButton
+        android:id="@+id/menuButton"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="20dp"
+        android:backgroundTint="@color/main2"
+        android:src="@drawable/ic_menu"
+        android:scaleType="centerInside" />
+
+    <!-- Google Map -->
+    <fragment
+        android:id="@+id/mapFragment"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_below="@id/txtTitle"
+        android:layout_above="@id/bottomCard"
+        android:layout_marginTop="20dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true" />
+
+    <!-- Bottom Card -->
+    <RelativeLayout
+        android:id="@+id/bottomCard"
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/accept_ride_bg"
+        android:padding="16dp">
+
+        <!-- Driver Image -->
+        <ImageView
+            android:id="@+id/driverImage"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:src="@drawable/ic_user"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:scaleType="centerCrop"
+            android:background="@drawable/circle_bg"
+            android:clipToOutline="true" />
+
+        <!-- Driver Info -->
+        <LinearLayout
+            android:id="@+id/driverInfo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_toEndOf="@id/driverImage"
+            android:layout_alignTop="@id/driverImage"
+            android:layout_marginStart="15dp">
+
+            <TextView
+                android:id="@+id/driverName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Simon Chao"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:textColor="#111827" />
+
+            <TextView
+                android:id="@+id/driverSerial"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Serial: T728"
+                android:textColor="#374151"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <!-- Vehicle Info -->
+        <LinearLayout
+            android:id="@+id/vehicleInfo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_toEndOf="@id/driverInfo"
+            android:layout_alignTop="@id/driverImage"
+            android:layout_marginStart="30dp"
+            android:layout_marginEnd="20dp">
+
+            <TextView
+                android:id="@+id/vehiclePlate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/r_destination_bg"
+                android:padding="6dp"
+                android:text="SSD 246 CE"
+                android:textColor="#374151"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/vehicleModel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Land Cruiser"
+                android:textColor="#374151"
+                android:textSize="14sp"
+                android:layout_marginTop="5dp" />
+        </LinearLayout>
+
+
+        <!-- Panic Button -->
+
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/panicButton"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="10dp"
+            android:backgroundTint="@color/main1"
+            android:drawableLeft="@drawable/ic_headset"
+            android:textColor="@color/underline_error"
+            android:text="Panic"
+            android:textSize="20sp"
+            app:cornerRadius="20dp" />
+
+    </RelativeLayout>
+</RelativeLayout>

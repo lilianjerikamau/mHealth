@@ -46,6 +46,7 @@ public class RiderHomeActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rider_home);
+        Log.d("RIDER_HOME", "onCreate: Layout set.");
 
         this.getOnBackPressedDispatcher().addCallback(this,
                 new OnBackPressedCallback(true) {
@@ -57,6 +58,7 @@ public class RiderHomeActivity extends BaseActivity {
                         finish();
                     }
                 });
+
         gestureDetector = new GestureDetector(this, new RiderHomeActivity.SwipeGestureListener());
 
         if (!Places.isInitialized()) {
@@ -78,12 +80,6 @@ public class RiderHomeActivity extends BaseActivity {
         destinationInput.setAdapter(adapter);
         destinationInput.setThreshold(1);
 
-        destinationInput.setOnFocusChangeListener((v, hasFocus) -> {
-            if (hasFocus) {
-                destinationInput.showDropDown();
-            }
-        });
-
         destinationInput.setOnItemClickListener((parent, view, position, id) -> {
             AutocompletePrediction item = adapter.getItem(position);
 
@@ -91,27 +87,23 @@ public class RiderHomeActivity extends BaseActivity {
                 destinationInput.setText(item.getFullText(null));
                 String placeId = item.getPlaceId();
 
-                // Fetch full place details
-                List<Place.Field> placeFields = Arrays.asList(Place.Field.LAT_LNG, Place.Field.NAME, Place.Field.ADDRESS);
+                List<Place.Field> placeFields = Arrays.asList(
+                        Place.Field.LAT_LNG,
+                        Place.Field.NAME,
+                        Place.Field.ADDRESS
+                );
                 FetchPlaceRequest request = FetchPlaceRequest.builder(placeId, placeFields).build();
 
                 placesClient.fetchPlace(request).addOnSuccessListener(response -> {
                     Place place = response.getPlace();
                     LatLng destinationLatLng = place.getLatLng();
 
-
-                    // Now get the current location
-
-
                     fusedLocationProviderClient.getLastLocation()
                             .addOnSuccessListener(location -> {
-                                Log.e("RIDER","Selected Destination: "+location);
                                 if (location != null && destinationLatLng != null) {
                                     GeoPoint pickupLocation = new GeoPoint(location.getLatitude(), location.getLongitude());
                                     GeoPoint selectedDestination = new GeoPoint(destinationLatLng.latitude, destinationLatLng.longitude);
 
-
-                                    // Save ride to Firestore
                                     String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
                                     Map<String, Object> ride = new HashMap<>();
@@ -124,14 +116,36 @@ public class RiderHomeActivity extends BaseActivity {
                                     ride.put("status", "requested");
                                     ride.put("timestamp", FieldValue.serverTimestamp());
                                     ride.put("fare", calculateFare(pickupLocation, selectedDestination));
+
                                     db.collection("rides").add(ride)
                                             .addOnSuccessListener(documentReference -> {
-                                                //Toast.makeText(this, "Ride request saved successfully", Toast.LENGTH_SHORT).show();
-                                                Intent intent = new Intent(RiderHomeActivity.this, AddressSearchActivity.class);
+                                                String rideId = documentReference.getId();
+                                                Log.d("RIDER_HOME", "Ride saved successfully. ID: " + rideId);
+
+                                                // ✅ Navigate to SearchAmbulanceActivity
+                                                Intent intent = new Intent(RiderHomeActivity.this, SearchAmbulanceActivity.class);
+
+                                                // ✅ Pass ALL ride details forward
+                                                Bundle bundle = new Bundle();
+                                                bundle.putString("rideId", rideId);
+                                                bundle.putString("customerId", userId);
+                                                bundle.putDouble("pickupLat", pickupLocation.getLatitude());
+                                                bundle.putDouble("pickupLng", pickupLocation.getLongitude());
+                                                bundle.putDouble("destinationLat", selectedDestination.getLatitude());
+                                                bundle.putDouble("destinationLng", selectedDestination.getLongitude());
+                                                bundle.putString("pickupLocationName", getPickupLocationName(pickupLocation));
+                                                bundle.putString("destinationName", place.getName());
+                                                bundle.putString("destinationAddress", place.getAddress());
+                                                bundle.putString("status", "requested");
+                                                bundle.putDouble("fare", calculateFare(pickupLocation, selectedDestination));
+
+                                                intent.putExtras(bundle);
+
                                                 startActivity(intent);
                                                 overridePendingTransition(R.anim.slide_out_right, R.anim.slide_in_left);
                                             })
                                             .addOnFailureListener(e -> {
+                                                Log.d("RIDER_HOME", "Failed to save ride: " + e.getMessage());
                                                 Toast.makeText(this, "Failed to save ride: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                                             });
                                 } else {
@@ -144,24 +158,16 @@ public class RiderHomeActivity extends BaseActivity {
 
     }
 
-    private String getPickupLocationName(GeoPoint location){
+
+    private String getPickupLocationName(GeoPoint location) {
         Geocoder geocoder = new Geocoder(this, Locale.getDefault());
-
         try {
-            List<Address> addresses = geocoder.getFromLocation(
-                    location.getLatitude(),
-                    location.getLongitude(),
-                    1 // max results
-            );
-
+            List<Address> addresses = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
             if (addresses != null && !addresses.isEmpty()) {
-                Address address = addresses.get(0);
-                String pickupAddress = address.getAddressLine(0);
-                return pickupAddress;
-            }else {
+                return addresses.get(0).getAddressLine(0);
+            } else {
                 return null;
             }
-
         } catch (IOException e) {
             e.printStackTrace();
             return null;
@@ -182,7 +188,6 @@ public class RiderHomeActivity extends BaseActivity {
         return baseFare + (distanceInMeters / 1000) * perKm;
     }
 
-
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         return gestureDetector.onTouchEvent(event) || super.onTouchEvent(event);
@@ -198,22 +203,11 @@ public class RiderHomeActivity extends BaseActivity {
             float diffY = e2.getY() - e1.getY();
 
             if (Math.abs(diffX) > Math.abs(diffY)) {
-                // Horizontal swipe
                 if (Math.abs(diffX) > SWIPE_THRESHOLD && Math.abs(velocityX) > SWIPE_VELOCITY_THRESHOLD) {
                     if (diffX > 0) {
                         onSwipeRight();
                     } else {
                         onSwipeLeft();
-                    }
-                    return true;
-                }
-            } else {
-                // Vertical swipe
-                if (Math.abs(diffY) > SWIPE_THRESHOLD && Math.abs(velocityY) > SWIPE_VELOCITY_THRESHOLD) {
-                    if (diffY > 0) {
-                        //onSwipeDown();
-                    } else {
-                        //onSwipeUp();
                     }
                     return true;
                 }
@@ -226,7 +220,6 @@ public class RiderHomeActivity extends BaseActivity {
         Intent intent = new Intent(RiderHomeActivity.this, RiderHomeActivity.class);
         startActivity(intent);
         overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
-
     }
 
     private void onSwipeRight() {
@@ -234,5 +227,4 @@ public class RiderHomeActivity extends BaseActivity {
         startActivity(intent);
         overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
     }
-
 }

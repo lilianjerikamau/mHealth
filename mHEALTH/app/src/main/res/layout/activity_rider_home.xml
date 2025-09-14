@@ -1,18 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
     android:background="@color/main2"
-    tools:context="com.jollyride.mhealth.RiderHomeActivity">
+    tools:context=".RiderHomeActivity">
 
-    <RelativeLayout
+    <!-- Main content -->
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
 
+        <!-- Top bar -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -20,7 +24,6 @@
             android:gravity="center_vertical"
             android:layout_marginTop="10dp">
 
-            <!-- Left Image -->
             <ImageView
                 android:id="@+id/leftImage"
                 android:layout_width="70dp"
@@ -30,7 +33,6 @@
                 android:maxHeight="70dp"
                 android:maxWidth="70dp"/>
 
-            <!-- Center Text -->
             <TextView
                 android:id="@+id/centerText"
                 android:layout_width="0dp"
@@ -38,11 +40,8 @@
                 android:layout_weight="1"
                 android:text=""
                 android:textSize="18sp"
-                android:gravity="center"
-                android:paddingLeft="0dp"
-                android:paddingRight="0dp"/>
+                android:gravity="center"/>
 
-            <!-- Right Image -->
             <ImageView
                 android:id="@+id/rightImage"
                 android:layout_width="70dp"
@@ -51,14 +50,13 @@
                 android:adjustViewBounds="true"
                 android:maxHeight="70dp"
                 android:maxWidth="70dp"/>
-
         </LinearLayout>
 
+        <!-- Middle content -->
         <LinearLayout
-            xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal"
+            android:layout_height="0dp"
+            android:layout_weight="1"
             android:gravity="center">
 
             <ImageView
@@ -67,37 +65,33 @@
                 android:src="@drawable/ride_search"/>
         </LinearLayout>
 
-        <LinearLayout
+    </LinearLayout>
+
+    <!-- Bottom search input (sticks to bottom, moves with keyboard) -->
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/destination_input_layout"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:padding="16dp"
+        android:background="@drawable/block"
+        app:startIconDrawable="@drawable/ic_search"
+        app:boxCornerRadiusBottomEnd="10dp"
+        app:boxCornerRadiusBottomStart="10dp"
+        app:boxCornerRadiusTopEnd="10dp"
+        app:boxCornerRadiusTopStart="10dp">
+
+        <AutoCompleteTextView
+            android:id="@+id/destination_input"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:padding="20dp"
-            android:layout_alignParentBottom="true"
-            android:background="@drawable/block">
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/destination_input_layout"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:startIconTintMode="src_in"
-                app:startIconDrawable="@drawable/ic_search"
-                app:boxCornerRadiusBottomEnd="10dp"
-                app:boxCornerRadiusBottomStart="10dp"
-                app:boxCornerRadiusTopEnd="10dp"
-                app:boxCornerRadiusTopStart="10dp">
+            android:inputType="textNoSuggestions"
+            android:imeOptions="actionSearch"
+            android:dropDownVerticalOffset="-300dp"
+            android:dropDownAnchor="@id/destination_input_layout"
+            android:dropDownWidth="match_parent"
+            android:dropDownHeight="300dp"/>
+    </com.google.android.material.textfield.TextInputLayout>
 
-                <AutoCompleteTextView
-                    android:id="@+id/destination_input"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="textNoSuggestions"
-                    android:imeOptions="actionSearch"
-                    android:dropDownVerticalOffset="-300dp"
-                android:dropDownAnchor="@id/destination_input_layout"
-                android:dropDownWidth="match_parent"
-                android:dropDownHeight="300dp"/>
-            </com.google.android.material.textfield.TextInputLayout>
-        </LinearLayout>
-    </RelativeLayout>
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

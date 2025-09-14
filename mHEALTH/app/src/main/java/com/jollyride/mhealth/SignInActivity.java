@@ -97,6 +97,17 @@ public class SignInActivity extends BaseActivity {
                     .addOnSuccessListener(authResult -> {
                         Toast.makeText(this, "Logged in via email", Toast.LENGTH_SHORT).show();
                         // Proceed to next activity
+                        if(userType.equals("rider")) {
+                            Intent intent = new Intent(SignInActivity.this, RiderHomeActivity.class);
+                            startActivity(intent);
+                            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                            finish();
+                        }else{
+                            Intent intent = new Intent(SignInActivity.this, DriverHomeActivity.class);
+                            startActivity(intent);
+                            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                            finish();
+                        }
                     })
                     .addOnFailureListener(e -> {
                         signInButtom.setVisibility(View.VISIBLE);

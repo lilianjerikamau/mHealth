@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:map="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/main2"
+    xmlns:app="http://schemas.android.com/tools"
+    app:ignore="NamespaceTypo">
+
+    <!-- Top AppBar -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="10dp">
+
+        <!-- Left Image -->
+        <ImageView
+            android:id="@+id/leftImage"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:adjustViewBounds="true"
+            android:maxWidth="70dp"
+            android:maxHeight="70dp"
+            android:src="@drawable/icon_back_btn"
+            />
+
+        <!-- Center Text -->
+        <TextView
+            android:id="@+id/centerText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:paddingLeft="0dp"
+            android:paddingRight="0dp"
+            android:text="Continue"
+            android:textColor="@color/main1"
+            android:textSize="25sp"
+            android:textStyle="bold" />
+
+        <!-- Right Image -->
+        <ImageView
+            android:id="@+id/rightImage"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:adjustViewBounds="true"
+            android:maxWidth="70dp"
+            android:maxHeight="70dp"
+            android:src="@drawable/ic_menu" />
+
+    </LinearLayout>
+
+    <!-- Google Map Fragment -->
+    <fragment
+        android:id="@+id/mapFragment"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="56dp"
+        android:layout_weight="1"/>
+
+<!--    &lt;!&ndash; Floating GPS Icon &ndash;&gt;-->
+<!--    <com.google.android.material.floatingactionbutton.FloatingActionButton-->
+<!--        android:id="@+id/gps_button"-->
+<!--        android:layout_width="56dp"-->
+<!--        android:layout_height="56dp"-->
+<!--        android:layout_gravity="top|end"-->
+<!--        android:layout_margin="16dp"-->
+<!--        android:layout_marginTop="120dp"-->
+<!--        android:src="@drawable/gps_icon"-->
+<!--        android:contentDescription="GPS"-->
+<!--        app:backgroundTint="@color/cardview_shadow_end_color"/>-->
+
+    <!-- Bottom Sheet -->
+    <LinearLayout
+        android:id="@+id/bottom_sheet"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:background="@drawable/top_rounded_bg"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <!-- Ambulance Card -->
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/top_rounded_bg"
+            app:cardElevation="4dp"
+            app:cardCornerRadius="12dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:background="@color/main2"
+                android:padding="16dp"
+                android:gravity="center_vertical">
+
+                <ImageView
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:src="@drawable/ic_ambulance_moving"
+                    android:contentDescription="Ambulance" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:paddingStart="16dp">
+
+                    <TextView
+                        android:text="Private"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        android:textColor="@android:color/black"  android:layout_height="wrap_content" android:layout_width="wrap_content"/>
+
+                    <TextView
+                        android:id="@+id/fare"
+                        android:text="SSP 800.00"
+                        android:textSize="14sp"
+                        android:layout_height="wrap_content" android:layout_width="wrap_content"
+                        android:textColor="@android:color/black" />
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/txtMinutesAway"
+                    android:text="3 min"
+                    android:textSize="14sp"
+                    android:layout_height="wrap_content" android:layout_width="wrap_content"
+                    android:textColor="@android:color/black" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingTop="8dp"
+            android:gravity="center_vertical">
+
+            <!-- Left-aligned Text -->
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Estimated trip time\n24 min"
+                android:gravity="start"
+                android:textSize="14sp"
+                android:textColor="@android:color/black" />
+
+            <!-- Right-aligned Icon + Text -->
+            <LinearLayout
+                android:padding="30dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/card"
+                    android:contentDescription="Cash" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:text="Cash"
+                    android:textSize="14sp"
+                    android:textColor="@android:color/black" />
+            </LinearLayout>
+        </LinearLayout>
+
+
+        <!-- Confirm Button -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/confirm_button"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:layout_marginTop="16dp"
+            android:text="Confirm"
+            android:textAllCaps="false"
+            android:backgroundTint="@color/main1"
+            android:textColor="@color/main2"
+            style="@style/Widget.MaterialComponents.Button"
+            app:cornerRadius="16dp" />
+    </LinearLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -35,7 +35,7 @@
             android:value="@integer/google_play_services_version" />
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyCrA2b_9tZuMRuk6xr8ruyyfrn0uDbHhVw" />
+            android:value="@string/google_maps_key" />
 
         <activity
             android:name=".RideNavigationActivity"
@@ -49,7 +49,28 @@
         <activity
             android:name=".RiderHomeActivity"
             android:exported="false"
-            android:windowSoftInputMode="adjustResize" />
+            android:windowSoftInputMode="adjustResize|stateHidden"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".SearchAmbulanceActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize|stateHidden"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".BookingReadyActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize|stateHidden"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ArrivingActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize|stateHidden"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".BookingDetailsActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize|stateHidden"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".LocationServiceDemoActivity"
             android:exported="false" />
@@ -77,6 +98,39 @@
         <activity
             android:name=".BenefitActivity"
             android:exported="false" />
+        <activity
+            android:name=".DriverArrivedActivity"
+            android:exported="false" />
+        <activity
+            android:name=".DriverContinueActivity"
+            android:exported="false" />
+        <activity
+            android:name=".DriverEndTripActivity"
+            android:exported="false" />
+        <activity
+            android:name=".DriverOnTripActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ArrivedActivity"
+            android:exported="false" />
+        <activity
+            android:name=".PanicReasonActivity"
+            android:exported="false" />
+        <activity
+            android:name=".DriverReceiptActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ShowCancelActivity"
+            android:exported="false" />
+        <activity
+            android:name=".SendFeedbackActivity"
+            android:exported="false" />
+        <activity
+            android:name=".OnTripActivity"
+            android:exported="false" />
+
+
+
         <activity
             android:name=".SplashActivity"
             android:exported="true">

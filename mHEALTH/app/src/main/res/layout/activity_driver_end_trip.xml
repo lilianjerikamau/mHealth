@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:padding="16dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center_horizontal">
+
+        <!-- Title -->
+        <TextView
+            android:id="@+id/receiptTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Receipt"
+            android:textStyle="bold"
+            android:textColor="@color/main1"
+            android:textSize="24sp"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp" />
+
+        <!-- Receipt Card -->
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="24dp"
+            app:cardCornerRadius="12dp"
+            app:cardElevation="4dp"
+            android:background="@android:color/transparent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="@color/bage"
+                android:padding="20dp">
+
+                <!-- Success icon -->
+                <ImageView
+                    android:layout_width="72dp"
+                    android:layout_height="72dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_check_circle_green"
+                    android:contentDescription="Success" />
+
+                <!-- Trip completed text -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Your trip has Completed"
+                    android:textColor="@color/main1"
+                    android:textStyle="bold"
+                    android:textSize="18sp"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginBottom="16dp" />
+
+                <!-- Route Info -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:background="@drawable/rounded_border"
+                    android:padding="16dp"
+                    android:layout_marginBottom="16dp">
+
+                    <!-- Icon or time -->
+                    <TextView
+                        android:id="@+id/timeText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="11:24"
+                        android:textColor="@color/gray"
+                        android:textSize="14sp"
+                        android:layout_marginEnd="8dp" />
+
+                    <!-- Trip address info -->
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_weight="1">
+
+                        <TextView
+                            android:id="@+id/textPickup"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="107 Road, Munuki Block “C”,\nJuba South Sudan"
+                            android:textColor="@color/main1"
+                            android:textSize="14sp"
+                            android:layout_marginBottom="12dp" />
+
+                        <TextView
+                            android:id="@+id/textDestination"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Juba Teaching Hospital,\nJuba, South Sudan"
+                            android:textColor="@color/main1"
+                            android:textSize="14sp" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <!-- Fare and payment -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:background="@drawable/rounded_border"
+                    android:padding="16dp"
+                    android:gravity="center_vertical">
+
+                    <TextView
+                        android:id="@+id/paymentMethod"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Paid in Cash"
+                        android:textColor="@color/main1"
+                        android:textStyle="bold"
+                        android:textSize="16sp" />
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_weight="1" />
+
+                    <TextView
+                        android:id="@+id/fareAmount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="SSP 800.00"
+                        android:textColor="@color/main1"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <!-- OK Button -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/buttonOk"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Ok"
+            android:textColor="@android:color/white"
+            android:backgroundTint="@color/main1"
+            app:cornerRadius="12dp"
+            android:textSize="16sp"
+            android:layout_marginBottom="24dp" />
+
+    </LinearLayout>
+</ScrollView>

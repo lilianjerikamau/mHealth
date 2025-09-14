@@ -1,25 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/main2"
-    tools:context=".DriverAcceptRideActivity">
+    tools:context=".DriverOnTripActivity">
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
 
+        <!-- Header bar -->
         <LinearLayout
+            android:id="@+id/headerBar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:gravity="center_vertical"
             android:orientation="horizontal"
-            android:padding="10dp">
+            android:padding="10dp"
+            android:gravity="center_vertical"
+            android:layout_alignParentTop="true">
 
             <!-- Left Image -->
             <ImageView
@@ -28,7 +30,8 @@
                 android:layout_height="50dp"
                 android:adjustViewBounds="true"
                 android:maxWidth="70dp"
-                android:maxHeight="70dp" />
+                android:maxHeight="70dp"
+                android:src="@drawable/icon_back_btn" />
 
             <!-- Center Text -->
             <TextView
@@ -37,9 +40,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:paddingLeft="0dp"
-                android:paddingRight="0dp"
-                android:text="Request"
+                android:text="On Trip"
                 android:textColor="@color/main1"
                 android:textSize="25sp"
                 android:textStyle="bold" />
@@ -53,45 +54,35 @@
                 android:maxWidth="70dp"
                 android:maxHeight="70dp"
                 android:src="@drawable/ic_menu" />
-
         </LinearLayout>
 
-        <LinearLayout
+        <!-- Map Fragment -->
+        <fragment
+            android:id="@+id/mapFragment"
+            android:name="com.google.android.gms.maps.SupportMapFragment"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="false"
-            android:layout_marginTop="80dp"
-            android:gravity="center_vertical">
+            android:layout_height="0dp"
+            android:layout_below="@id/headerBar"
+            android:layout_above="@+id/bottomPanel"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
+            android:layout_weight="1" />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="100dp"
-                android:background="@drawable/notification_bg"
-                android:gravity="center"
-                android:text="You have a Request for Ambulance"
-                android:textColor="@color/main1"
-                android:textSize="18sp"
-                android:textStyle="bold" />
-        </LinearLayout>
-
+        <!-- Bottom panel with trip info and buttons -->
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-
-        </LinearLayout>
-
-        <LinearLayout
+            android:id="@+id/bottomPanel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:background="@drawable/accept_ride_bg"
             android:orientation="vertical"
+            android:background="@drawable/accept_ride_bg"
             android:padding="20dp">
 
+            <!-- Rider Icon -->
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal">
 
                 <ImageView
                     android:layout_width="80dp"
@@ -100,6 +91,7 @@
                     android:src="@drawable/ic_rider" />
             </LinearLayout>
 
+            <!-- Rider info and destination -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -124,13 +116,13 @@
                     android:layout_height="wrap_content"
                     android:background="@drawable/r_destination_bg"
                     android:gravity="center"
-                    android:text='Munuki Block "C" 107'
+                    android:text="Munuki Block &quot;C&quot; 107"
                     android:textColor="@color/main1"
                     android:textSize="18sp"
                     android:textStyle="bold" />
-
             </LinearLayout>
 
+            <!-- Serial and gender -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -148,7 +140,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
+                    android:layout_marginStart="5dp"
                     android:text="TZ28"
                     android:textColor="@color/main1"
                     android:textSize="18sp" />
@@ -162,13 +154,12 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:text='Fe-Male'
+                    android:text="Fe-Male"
                     android:textColor="@color/main1"
                     android:textSize="18sp" />
-
-
             </LinearLayout>
 
+            <!-- Route info -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -187,26 +178,22 @@
                     android:textColor="@color/main1"
                     android:textSize="14sp" />
 
-                <!-- Line + Dot + Arrow (middle icon stack) -->
+                <!-- Route icon (empty LinearLayout for now) -->
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="8dp"
                     android:background="@drawable/ic_route"
                     android:gravity="center_horizontal"
-                    android:orientation="vertical">
+                    android:orientation="vertical" />
 
-
-                </LinearLayout>
-
-                <!-- Address texts -->
+                <!-- Addresses -->
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:orientation="vertical">
 
-                    <!-- Pickup address -->
                     <TextView
                         android:id="@+id/textPickup"
                         android:layout_width="wrap_content"
@@ -216,7 +203,6 @@
                         android:textColor="@color/main1"
                         android:textSize="16sp" />
 
-                    <!-- Drop-off address -->
                     <TextView
                         android:id="@+id/textDestination"
                         android:layout_width="wrap_content"
@@ -228,62 +214,68 @@
                 </LinearLayout>
             </LinearLayout>
 
+            <!-- Buttons and ProgressBars -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:layout_marginTop="10dp">
 
-                <!-- Left Image -->
-                <ImageView
-                    android:layout_width="70dp"
-                    android:layout_height="70dp"
-                    android:adjustViewBounds="true"
-                    android:src="@drawable/btn_call" />
-
-
+                <!-- Panic Button + ProgressBar -->
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:gravity="center"
-                    android:paddingLeft="0dp"
-                    android:paddingRight="0dp">
+                    android:gravity="center">
 
                     <ProgressBar
-                        android:id="@+id/progressBar"
+                        android:id="@+id/progressBarPanic"
                         style="@android:style/Widget.DeviceDefault.Light.ProgressBar.Large"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_centerInParent="true"
                         android:indeterminateTint="@color/main1"
                         android:visibility="gone" />
 
                     <com.google.android.material.button.MaterialButton
-                        android:id="@+id/buttonAccept"
+                        android:id="@+id/buttonPanic"
                         android:layout_width="150dp"
                         android:layout_height="70dp"
                         android:backgroundTint="@color/main1"
-                        android:textColor="@color/main2"
-                        android:text="Accept"
+                        app:icon="@drawable/panic_icon"
+                        app:iconTint="@color/underline_error"
+                        android:textColor="@color/underline_error"
+                        android:text="Panic"
                         android:textSize="20sp"
                         app:cornerRadius="20dp" />
                 </LinearLayout>
 
-                <!-- Right Image -->
-                <ImageView
-                    android:id="@+id/buttonDecline"
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
-                    android:adjustViewBounds="true"
-                    android:src="@drawable/btn_cancel" />
+                <!-- End Button + ProgressBar -->
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center">
 
+                    <ProgressBar
+                        android:id="@+id/progressBarEnd"
+                        style="@android:style/Widget.DeviceDefault.Light.ProgressBar.Large"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:indeterminateTint="@color/main1"
+                        android:visibility="gone" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/buttonEnd"
+                        android:layout_width="150dp"
+                        android:layout_height="70dp"
+                        android:backgroundTint="@color/main1"
+                        android:text="END"
+                        android:textColor="@color/vibrant_green"
+                        android:textSize="20sp"
+                        app:cornerRadius="20dp" />
+                </LinearLayout>
             </LinearLayout>
-
-
         </LinearLayout>
-
     </RelativeLayout>
-
-
 </androidx.constraintlayout.widget.ConstraintLayout>

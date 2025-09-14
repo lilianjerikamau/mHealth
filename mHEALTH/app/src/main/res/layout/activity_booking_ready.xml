@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="#C6E6EE">
+
+    <!-- Menu icon -->
+    <ImageView
+        android:id="@+id/menuIcon"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_margin="16dp"
+        android:src="@drawable/ic_menu"
+        android:contentDescription="Menu" />
+
+    <!-- Location Input Box -->
+    <LinearLayout
+        android:id="@+id/locationInputBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp"
+        android:layout_margin="16dp"
+        android:layout_below="@id/menuIcon">
+
+        <!-- Current Location -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/currentLocationLayout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:boxBackgroundMode="outline"
+            app:boxCornerRadiusBottomEnd="15dp"
+            app:boxCornerRadiusBottomStart="15dp"
+            app:boxCornerRadiusTopEnd="15dp"
+            app:boxCornerRadiusTopStart="15dp"
+            android:hint="Pickup Location">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/currentLocation"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text"
+                android:text="107, Munuki Block “C”"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Destination -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/destinationLayout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            app:boxBackgroundMode="outline"
+            app:boxCornerRadiusBottomEnd="15dp"
+            app:boxCornerRadiusBottomStart="15dp"
+            app:boxCornerRadiusTopEnd="15dp"
+            app:boxCornerRadiusTopStart="15dp"
+            android:hint="I’m going to...">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/destinationText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text" />
+        </com.google.android.material.textfield.TextInputLayout>
+    </LinearLayout>
+
+
+    <!-- Ambulances & ETA -->
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@drawable/ride_search"
+        android:layout_below="@id/locationInputBox"
+        android:layout_above="@+id/nextButton"
+        android:layout_alignParentBottom="true"
+        android:layout_weight="1">
+
+        <!-- ETA bubble + pin -->
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center">
+
+            <TextView
+                android:id="@+id/etaText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="3 min"
+                android:textColor="#FFFFFF"
+                android:background="@drawable/dot_background"
+                android:paddingHorizontal="12dp"
+                android:paddingVertical="6dp"
+                android:textSize="16sp"
+                android:layout_centerHorizontal="true" />
+
+            <ImageView
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_below="@id/etaText"
+                android:layout_marginTop="11dp"
+                android:src="@color/cardview_dark_background" />
+        </RelativeLayout>
+
+
+    </FrameLayout>
+
+
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/nextButton"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="16dp"
+        android:text="Next"
+        android:backgroundTint="@color/main1"
+        android:textColor="@color/main2"
+        android:textSize="18sp"
+        android:textStyle="bold"  />
+</RelativeLayout>

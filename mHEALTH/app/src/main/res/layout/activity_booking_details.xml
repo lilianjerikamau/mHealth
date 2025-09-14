@@ -1,0 +1,125 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="#C6E6EE"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!-- Header -->
+    <ImageView
+        android:id="@+id/backButton"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_margin="16dp"
+        android:src="@drawable/icon_back_btn"
+        android:layout_alignParentStart="true"
+        android:padding="8dp" />
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Ride options"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:textColor="@color/main1"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="24dp" />
+
+    <ImageView
+        android:id="@+id/menuButton"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_alignParentEnd="true"
+        android:layout_margin="16dp"
+        android:src="@drawable/ic_menu"
+        android:padding="8dp" />
+
+    <!-- Route Visualization -->
+    <fragment
+        android:id="@+id/routeMap"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_margin="8dp"
+        android:layout_below="@id/menuButton"
+        />
+
+    <!-- Dynamic Ambulance List -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/ambulanceRecycler"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_below="@id/routeMap"
+        android:layout_above="@id/bookRideButton"
+        android:layout_margin="16dp"
+        android:clipToPadding="false"
+        android:paddingBottom="8dp" />
+    <RelativeLayout
+        android:id="@+id/eta_ll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/bookRideButton"
+        android:paddingVertical="12dp"
+        android:paddingHorizontal="16dp"
+        android:background="@color/main2">
+
+        <!-- Image on the far left -->
+        <LinearLayout
+            android:id="@+id/paymentMethodLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:gravity="center_vertical"
+            android:paddingEnd="16dp">
+
+            <ImageView
+                android:id="@+id/cashIcon"
+                android:layout_width="35dp"
+                android:layout_height="40dp"
+                android:layout_marginEnd="8dp"
+                android:contentDescription="Payment Method Icon"
+                android:src="@drawable/card" />
+
+            <TextView
+                android:id="@+id/paymentMethodText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Cash"
+                android:textColor="#4A5E6B"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+
+        <!-- Text on the far right -->
+        <TextView
+            android:id="@+id/etaText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:text="Estimated trip time
+24 min"
+            android:textColor="@color/main1"
+            android:textSize="12sp"
+            android:textStyle="normal" />
+
+    </RelativeLayout>
+
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/bookRideButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/main1"
+        android:textColor="@color/main2"
+        android:textStyle="bold"
+        android:text="Book ride"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="16dp"
+        android:paddingVertical="12dp"
+        android:textSize="20sp"
+        app:cornerRadius="20dp" />
+</RelativeLayout>

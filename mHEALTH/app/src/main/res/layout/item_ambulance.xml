@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp"
+    android:backgroundTint="@color/main2"
+    app:cardCornerRadius="16dp"
+    app:cardElevation="4dp"
+    android:clickable="true"
+    android:focusable="true">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingStart="12dp"
+        android:paddingEnd="12dp">
+
+        <!-- Ambulance icon -->
+        <ImageView
+            android:id="@+id/ambulanceIcon"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@drawable/ambulance"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true"
+            android:contentDescription="Ambulance Icon" />
+
+        <!-- Private (below icon) -->
+        <TextView
+            android:id="@+id/ambulanceType"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/ambulanceIcon"
+            android:layout_alignStart="@id/ambulanceIcon"
+            android:layout_marginTop="4dp"
+            android:text="Private"
+            android:backgroundTint="@color/main1"
+            android:textSize="14sp"
+            android:layout_alignParentStart="true" />
+
+        <!-- Price (800.) -->
+        <TextView
+            android:id="@+id/ambulancePrice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:text="800."
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="#3A4352" />
+
+        <!-- Time (3 min) -->
+        <TextView
+            android:id="@+id/ambulanceEta"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:text="3 min"
+            android:textSize="14sp"
+            android:backgroundTint="@color/main1" />
+
+    </RelativeLayout>
+</androidx.cardview.widget.CardView>

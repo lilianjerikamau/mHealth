@@ -68,7 +68,7 @@
                 android:layout_height="100dp"
                 android:background="@drawable/notification_bg"
                 android:gravity="center"
-                android:text="You have a Request for Ambulance"
+                android:text="You have arrived"
                 android:textColor="@color/main1"
                 android:textSize="18sp"
                 android:textStyle="bold" />
@@ -242,6 +242,14 @@
                     android:src="@drawable/btn_call" />
 
 
+
+
+                <!-- Right Image -->
+                <ImageView
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:adjustViewBounds="true"
+                    android:src="@drawable/message" />
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -270,20 +278,13 @@
                         app:cornerRadius="20dp" />
                 </LinearLayout>
 
-                <!-- Right Image -->
-                <ImageView
-                    android:id="@+id/buttonDecline"
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
-                    android:adjustViewBounds="true"
-                    android:src="@drawable/btn_cancel" />
-
             </LinearLayout>
 
 
         </LinearLayout>
 
     </RelativeLayout>
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

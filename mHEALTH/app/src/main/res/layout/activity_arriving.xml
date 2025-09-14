@@ -1,0 +1,265 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/main2"
+    tools:context=".ArrivingActivity">
+
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/appBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="10dp">
+
+        <!-- Left Image -->
+        <ImageView
+            android:id="@+id/leftImage"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:adjustViewBounds="true"
+            android:src="@drawable/icon_back_btn"
+            android:maxWidth="70dp"
+            android:maxHeight="70dp" />
+
+        <!-- Center Text -->
+        <TextView
+            android:id="@+id/centerText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:paddingLeft="0dp"
+            android:paddingRight="0dp"
+            android:text="Arriving"
+            android:textColor="@color/main1"
+            android:textSize="25sp"
+            android:textStyle="bold" />
+
+        <!-- Right Image -->
+        <ImageView
+            android:id="@+id/rightImage"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:adjustViewBounds="true"
+            android:maxWidth="70dp"
+            android:maxHeight="70dp"
+            android:src="@drawable/ic_menu" />
+
+    </LinearLayout>
+
+    <fragment
+        android:id="@+id/routeMap"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_below="@id/appBar"
+        android:layout_above="@id/arrivingDetails"
+
+        />
+
+    <LinearLayout
+        android:id="@+id/arrivingDetails"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/accept_ride_bg"
+        android:orientation="vertical"
+        android:padding="20dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:adjustViewBounds="true"
+                android:src="@drawable/ic_rider" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Suzane Gideon"
+                android:textColor="@color/main1"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/r_destination_bg"
+                android:gravity="center"
+                android:text='Munuki Block "C" 107'
+                android:textColor="@color/main1"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Serial:"
+                android:textColor="@color/main1"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:text="TZ28"
+                android:textColor="@color/main1"
+                android:textSize="18sp" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text='Fe-Male'
+                android:textColor="@color/main1"
+                android:textSize="18sp" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/route_bg"
+            android:orientation="horizontal"
+            android:padding="20dp">
+
+            <!-- Time -->
+            <TextView
+                android:id="@+id/timeText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:text="11:24"
+                android:textColor="@color/main1"
+                android:textSize="14sp" />
+
+            <!-- Line + Dot + Arrow (middle icon stack) -->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/ic_route"
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
+
+
+            </LinearLayout>
+
+            <!-- Address texts -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <!-- Pickup address -->
+                <TextView
+                    android:id="@+id/textPickup"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="35dp"
+                    android:text="107 Road, Munuki Block “C”,\nJuba South Sudan"
+                    android:textColor="@color/main1"
+                    android:textSize="16sp" />
+
+                <!-- Drop-off address -->
+                <TextView
+                    android:id="@+id/textDestination"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="Juba Teaching Hospital\nJuba, South Sudan"
+                    android:textColor="@color/main1"
+                    android:textSize="16sp" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingVertical="16dp">
+
+            <!-- Left button -->
+            <ImageView
+                android:id="@+id/btnCall"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="16dp"
+                android:adjustViewBounds="true"
+                android:src="@drawable/btn_call" />
+
+            <!-- Center button -->
+            <ImageView
+                android:id="@+id/btnChat"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_centerHorizontal="true"
+                android:adjustViewBounds="true"
+                android:src="@drawable/message" />
+
+            <!-- Right button -->
+            <ImageView
+                android:id="@+id/btnCancel"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="16dp"
+                android:adjustViewBounds="true"
+                android:src="@drawable/btn_cancel" />
+        </RelativeLayout>
+
+
+    </LinearLayout>
+
+</RelativeLayout>
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rootLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#3A4352">
+
+    <!-- Close Button -->
+    <ImageView
+        android:id="@+id/closeButton"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_margin="16dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:src="@drawable/btn_cancel"
+        android:contentDescription="Close" />
+
+    <!-- Ambulance Icon -->
+    <ImageView
+        android:id="@+id/ambulanceIcon"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_centerInParent="true"
+        android:src="@drawable/search_ambulance"
+        android:contentDescription="Ambulance" />
+
+    <!-- Status Text -->
+    <TextView
+        android:id="@+id/statusText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="32dp"
+        android:background="@drawable/r_destination_bg"
+        android:gravity="center"
+        android:padding="8dp"
+        android:text="Searching for a driver"
+        android:textColor="@color/main1"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+</RelativeLayout>

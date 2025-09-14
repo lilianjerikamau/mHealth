@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="#C6E6EE"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!-- Header -->
+    <ImageButton
+        android:id="@+id/backButton"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_margin="16dp"
+        android:src="@drawable/icon_back_btn"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:id="@+id/titleText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Payment options"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:textColor="#3A4352"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="24dp" />
+
+    <ImageButton
+        android:id="@+id/menuButton"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_alignParentEnd="true"
+        android:layout_margin="16dp"
+        android:src="@drawable/ic_menu" />
+
+    <!-- Google Map fragment showing route -->
+    <fragment
+        android:id="@+id/mapFragment"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:layout_below="@id/titleText"
+        android:layout_marginTop="8dp" />
+
+    <!-- Select payment section -->
+    <LinearLayout
+        android:id="@+id/selectPaymentSection"
+        android:layout_below="@id/mapFragment"
+        android:layout_marginTop="24dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp"
+        android:background="#D9E4E9"
+        android:layout_marginHorizontal="16dp"
+        android:clipToPadding="false"
+        android:elevation="4dp"
+        android:paddingBottom="24dp"
+        android:paddingTop="24dp"
+        android:layout_marginBottom="16dp"
+        android:backgroundTint="#D9E4E9">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Select payment"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="#3A4352"
+            android:layout_marginBottom="12dp" />
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardPaymentMethod1"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_marginBottom="12dp"
+            app:cardBackgroundColor="#B9D6E1"
+            app:cardCornerRadius="12dp"
+            app:cardElevation="2dp"
+            android:clickable="true"
+            android:focusable="true">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="12dp">
+
+                <TextView
+                    android:id="@+id/cardNumber"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="MGurush **** 3704"
+                    android:textColor="#3A4352"
+                    android:textSize="16sp"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true" />
+
+                <ImageView
+                    android:id="@+id/cardArrow1"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/ic_arrow_right"
+                    app:tint="#3A4352" />
+            </RelativeLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardPaymentMethod2"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            app:cardBackgroundColor="#B9D6E1"
+            app:cardCornerRadius="12dp"
+            app:cardElevation="2dp"
+            android:clickable="true"
+            android:focusable="true">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="12dp">
+
+                <ImageView
+                    android:id="@+id/cashIcon"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/ic_cash"
+                    app:tint="#3A4352" />
+
+                <TextView
+                    android:id="@+id/cashText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Cash"
+                    android:textColor="#3A4352"
+                    android:textSize="16sp"
+                    android:layout_toEndOf="@id/cashIcon"
+                    android:layout_marginStart="8dp"
+                    android:layout_centerVertical="true" />
+
+                <ImageView
+                    android:id="@+id/cardArrow2"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/ic_arrow_right"
+                    app:tint="#3A4352" />
+            </RelativeLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+    </LinearLayout>
+</RelativeLayout>

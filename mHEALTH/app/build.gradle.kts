@@ -37,9 +37,10 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_1_10
+        targetCompatibility = JavaVersion.VERSION_1_10
     }
+
 }
 
 dependencies {
@@ -55,7 +56,8 @@ dependencies {
     //custom
     implementation("androidx.viewpager2:viewpager2:1.0.0")
     implementation("com.tbuonomo:dotsindicator:4.3")
-    implementation("androidx.security:security-crypto:1.1.0-alpha03")
+    implementation("androidx.security:security-crypto:1.0.0")
+
     //implementation("com.google.firebase:firebase-auth:22.3.1")
     //implementation("com.google.firebase:firebase-firestore:24.10.1")
     // Import the Firebase BoM

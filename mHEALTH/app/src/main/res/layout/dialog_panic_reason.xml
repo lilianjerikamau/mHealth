@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:padding="24dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/main2">
+
+    <TextView
+        android:id="@+id/titleText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Please select the reason for Panic:"
+        android:textAppearance="?attr/textAppearanceHeadline6"
+        android:paddingBottom="16dp"/>
+
+    <com.google.android.material.radiobutton.MaterialRadioButton
+        android:id="@+id/radioNoShare"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="I don’t want to share"
+        android:checked="true"/>
+
+    <com.google.android.material.radiobutton.MaterialRadioButton
+        android:id="@+id/radioCantContact"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Can't contact the driver"/>
+
+    <com.google.android.material.radiobutton.MaterialRadioButton
+        android:id="@+id/radioDriverLate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Driver is late"/>
+
+    <com.google.android.material.radiobutton.MaterialRadioButton
+        android:id="@+id/radioPriceNotReasonable"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="The price is not reasonable"/>
+
+    <com.google.android.material.radiobutton.MaterialRadioButton
+        android:id="@+id/radioPickupIncorrect"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Pickup address is incorrect"/>
+
+    <com.google.android.material.radiobutton.MaterialRadioButton
+        android:id="@+id/radioOthers"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Others"/>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputLayoutMessage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Write Message Here"
+        android:layout_marginTop="16dp">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/editTextMessage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:maxLines="4"
+            android:inputType="textMultiLine"/>
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <Button
+        android:id="@+id/buttonSubmit"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:text="Submit"
+        android:textAllCaps="false"
+        android:layout_marginTop="24dp"/>
+
+</LinearLayout>
