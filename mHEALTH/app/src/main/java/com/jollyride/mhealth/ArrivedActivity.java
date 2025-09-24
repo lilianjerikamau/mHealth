@@ -45,7 +45,6 @@ public class ArrivedActivity extends AppCompatActivity {
         cancelButton = findViewById(R.id.buttonDecline);
         imComingButton = findViewById(R.id.buttonAccept);
         progressBar = findViewById(R.id.progressBar);
-        listenForDriverResponse();
         // Extract data from Intent extras
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
@@ -96,6 +95,7 @@ public class ArrivedActivity extends AppCompatActivity {
                 startActivity(intent);
             });
         }
+        listenForDriverResponse();
     }
     private void listenForDriverResponse() {
         FirebaseFirestore db = FirebaseFirestore.getInstance();

@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/main2">
+
+    <!-- Toolbar -->
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        app:navigationIcon="@drawable/icon_back_btn"
+        app:title="FAQa"
+        app:titleCentered="true"
+        app:titleTextColor="@android:color/black" />
+
+    <!-- Content -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="16dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!-- Account Section -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Account"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:paddingVertical="8dp" />
+
+            <com.google.android.material.divider.MaterialDivider android:layout_height="match_parent" android:layout_width="wrap_content"/>
+
+            <com.google.android.material.textview.MaterialTextView
+                android:text="Unblock account"
+                style="@style/TextAppearance.Material3.BodyLarge"
+                android:padding="12dp"/>
+
+            <com.google.android.material.divider.MaterialDivider android:layout_height="match_parent" android:layout_width="wrap_content"/>
+
+            <com.google.android.material.textview.MaterialTextView
+                android:text="Change phone number"
+                style="@style/TextAppearance.Material3.BodyLarge"
+                android:padding="12dp"/>
+
+            <com.google.android.material.divider.MaterialDivider android:layout_height="match_parent" android:layout_width="wrap_content"/>
+
+            <com.google.android.material.textview.MaterialTextView
+                android:text="Privacy information"
+                style="@style/TextAppearance.Material3.BodyLarge"
+                android:padding="12dp"/>
+
+            <!-- Payment Section -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Payment and pricing"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:paddingTop="16dp"
+                android:paddingBottom="8dp"/>
+
+            <com.google.android.material.divider.MaterialDivider android:layout_height="match_parent" android:layout_width="wrap_content" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:text="Accepted payment methods"
+                style="@style/TextAppearance.Material3.BodyLarge"
+                android:padding="12dp"/>
+
+            <com.google.android.material.divider.MaterialDivider android:layout_height="match_parent" android:layout_width="wrap_content" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:text="Price estimation"
+                style="@style/TextAppearance.Material3.BodyLarge"
+                android:padding="12dp"/>
+
+            <com.google.android.material.divider.MaterialDivider android:layout_height="match_parent" android:layout_width="wrap_content" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:text="Ride cancellation fee"
+                style="@style/TextAppearance.Material3.BodyLarge"
+                android:padding="12dp"/>
+
+            <com.google.android.material.divider.MaterialDivider android:layout_height="match_parent" android:layout_width="wrap_content" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:text="Damage or cleaning fee"
+                style="@style/TextAppearance.Material3.BodyLarge"
+                android:padding="12dp"/>
+
+            <com.google.android.material.divider.MaterialDivider  android:layout_height="match_parent" android:layout_width="wrap_content"/>
+
+            <com.google.android.material.textview.MaterialTextView
+                android:text="Price higher than expected"
+                style="@style/TextAppearance.Material3.BodyMedium"
+                android:textColor="@android:color/darker_gray"
+                android:padding="12dp"/>
+
+            <com.google.android.material.divider.MaterialDivider android:layout_height="match_parent" android:layout_width="wrap_content" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:text="Using a coupon"
+                style="@style/TextAppearance.Material3.BodyMedium"
+                android:textColor="@android:color/darker_gray"
+                android:padding="12dp"/>
+
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

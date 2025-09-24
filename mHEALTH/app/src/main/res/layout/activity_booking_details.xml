@@ -1,6 +1,6 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="#C6E6EE"
+    android:background="@color/main2"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -9,10 +9,10 @@
         android:id="@+id/backButton"
         android:layout_width="80dp"
         android:layout_height="80dp"
-        android:layout_margin="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
         android:src="@drawable/icon_back_btn"
-        android:layout_alignParentStart="true"
-        android:padding="8dp" />
+        android:layout_alignParentStart="true" />
 
     <TextView
         android:id="@+id/title"
@@ -30,30 +30,61 @@
         android:layout_width="80dp"
         android:layout_height="80dp"
         android:layout_alignParentEnd="true"
-        android:layout_margin="16dp"
-        android:src="@drawable/ic_menu"
-        android:padding="8dp" />
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        android:src="@drawable/ic_menu" />
 
     <!-- Route Visualization -->
-    <fragment
-        android:id="@+id/routeMap"
-        android:name="com.google.android.gms.maps.SupportMapFragment"
+    <FrameLayout
+        android:id="@+id/mapContainer"
         android:layout_width="match_parent"
         android:layout_height="200dp"
-        android:layout_margin="8dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="8dp"
         android:layout_below="@id/menuButton"
-        />
+        android:background="@drawable/rounded_map_background"
+        android:clipChildren="true"
+        android:clipToPadding="true"
+        android:elevation="6dp">
+
+        <!-- Custom Route View -->
+        <com.jollyride.mhealth.widget.CustomRouteView
+            android:id="@+id/customRouteView"
+            android:elevation="0dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <!-- Floating ETA Bubble -->
+        <TextView
+            android:id="@+id/etaBubble"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start|top"
+            android:layout_marginTop="1dp"
+            android:layout_marginStart="30dp"
+            android:layout_marginBottom="50dp"
+            android:paddingHorizontal="12dp"
+            android:paddingVertical="6dp"
+            android:text="3 min"
+            android:textSize="14sp"
+            android:textColor="@android:color/white"
+            android:textStyle="bold"
+            android:background="@drawable/eta_bubble"
+            android:elevation="4dp" />
+    </FrameLayout>
 
     <!-- Dynamic Ambulance List -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/ambulanceRecycler"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_below="@id/routeMap"
+        android:layout_below="@id/mapContainer"
         android:layout_above="@id/bookRideButton"
         android:layout_margin="16dp"
         android:clipToPadding="false"
         android:paddingBottom="8dp" />
+
     <RelativeLayout
         android:id="@+id/eta_ll"
         android:layout_width="match_parent"
@@ -63,7 +94,7 @@
         android:paddingHorizontal="16dp"
         android:background="@color/main2">
 
-        <!-- Image on the far left -->
+        <!-- Payment Method Layout -->
         <LinearLayout
             android:id="@+id/paymentMethodLayout"
             android:layout_width="wrap_content"
@@ -92,22 +123,18 @@
                 android:textStyle="bold" />
         </LinearLayout>
 
-
-        <!-- Text on the far right -->
+        <!-- ETA Text -->
         <TextView
             android:id="@+id/etaText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:layout_centerVertical="true"
-            android:text="Estimated trip time
-24 min"
+            android:text="Estimated trip time\n24 min"
             android:textColor="@color/main1"
             android:textSize="12sp"
             android:textStyle="normal" />
-
     </RelativeLayout>
-
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/bookRideButton"
@@ -116,7 +143,7 @@
         android:backgroundTint="@color/main1"
         android:textColor="@color/main2"
         android:textStyle="bold"
-        android:text="Book ride"
+        android:text="Book Ride"
         android:layout_alignParentBottom="true"
         android:layout_margin="16dp"
         android:paddingVertical="12dp"

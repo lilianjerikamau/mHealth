@@ -3,26 +3,17 @@ package com.jollyride.mhealth;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Color;
 import android.location.Location;
 import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.android.material.button.MaterialButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
@@ -30,10 +21,10 @@ import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.ListenerRegistration;
 import com.jollyride.mhealth.helper.DistanceUtils;
+import com.jollyride.mhealth.widget.CustomRouteView;
 
-public class DriverContinueActivity extends AppCompatActivity implements OnMapReadyCallback {
+public class DriverContinueActivity extends AppCompatActivity {
 
-    private GoogleMap mMap;
     private FirebaseFirestore db;
     private FusedLocationProviderClient fusedLocationClient;
     private ListenerRegistration rideListener;
@@ -41,8 +32,9 @@ public class DriverContinueActivity extends AppCompatActivity implements OnMapRe
     private double pickupLat, pickupLng, fare;
     private TextView txtFare, txtMinutesAway;
 
-    private LatLng pickupLocation;
     private boolean hasArrived = false;
+
+    private CustomRouteView customRouteView; // our custom view
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,8 +51,6 @@ public class DriverContinueActivity extends AppCompatActivity implements OnMapRe
         pickupLng = getIntent().getDoubleExtra("pickupLng", 0);
         fare = getIntent().getDoubleExtra("fare", 0);
 
-        pickupLocation = new LatLng(pickupLat, pickupLng);
-
         // UI
         ImageView toolbar = findViewById(R.id.leftImage);
         toolbar.setOnClickListener(v -> finish());
@@ -68,42 +58,31 @@ public class DriverContinueActivity extends AppCompatActivity implements OnMapRe
         txtFare = findViewById(R.id.fare);
         txtMinutesAway = findViewById(R.id.txtMinutesAway);
         txtFare.setText(String.format("SSP %.2f", fare));
+
+        customRouteView = findViewById(R.id.customRouteView);
+
         listenForDriverResponse();
-        // Map
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.mapFragment);
-        if (mapFragment != null) {
-            mapFragment.getMapAsync(this);
-        }
+
+        // Simulated initial driver location
+        double startLat = 4.8594;
+        double startLng = 31.5713;
+
+        // set initial route
+        customRouteView.setRoutePoints(startLat, startLng, pickupLat, pickupLng);
+
+        // ETA
+        int minutes = DistanceUtils.calculateMinutesAway(
+                new com.google.android.gms.maps.model.LatLng(startLat, startLng),
+                new com.google.android.gms.maps.model.LatLng(pickupLat, pickupLng)
+        );
+        txtMinutesAway.setText(minutes + " min away");
+
+        // start location tracking
+        startTrackingDriverLocation();
 
         // Confirm Button
         MaterialButton confirmButton = findViewById(R.id.confirm_button);
         confirmButton.setOnClickListener(v -> confirmAndNavigate());
-    }
-
-    @Override
-    public void onMapReady(@NonNull GoogleMap googleMap) {
-        mMap = googleMap;
-
-        // Simulated initial driver location (replace with real GPS in production)
-        LatLng driverLocation = new LatLng(4.8594, 31.5713);
-
-        mMap.addMarker(new MarkerOptions().position(driverLocation).title("You"));
-        mMap.addMarker(new MarkerOptions().position(pickupLocation).title("Pickup"));
-
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(driverLocation, 13));
-
-        mMap.addPolyline(new PolylineOptions()
-                .add(driverLocation, pickupLocation)
-                .color(Color.BLACK)
-                .width(5));
-
-        // Initial ETA
-        int minutes = DistanceUtils.calculateMinutesAway(driverLocation, pickupLocation);
-        txtMinutesAway.setText(minutes + " min away");
-
-        // Start location updates
-        startTrackingDriverLocation();
     }
 
     private void startTrackingDriverLocation() {
@@ -116,18 +95,25 @@ public class DriverContinueActivity extends AppCompatActivity implements OnMapRe
 
         fusedLocationClient.getLastLocation()
                 .addOnSuccessListener(location -> {
-                    if (location != null && pickupLocation != null && !hasArrived) {
+                    if (location != null && !hasArrived) {
                         float[] results = new float[1];
                         Location.distanceBetween(
                                 location.getLatitude(), location.getLongitude(),
-                                pickupLocation.latitude, pickupLocation.longitude,
+                                pickupLat, pickupLng,
                                 results
                         );
                         float distanceMeters = results[0];
 
+                        // update custom view
+                        customRouteView.updateDriverLocation(
+                                new com.google.android.gms.maps.model.LatLng(location.getLatitude(), location.getLongitude())
+                        );
+
                         // Update ETA
-                        LatLng currentDriverLocation = new LatLng(location.getLatitude(), location.getLongitude());
-                        int minutes = DistanceUtils.calculateMinutesAway(currentDriverLocation, pickupLocation);
+                        int minutes = DistanceUtils.calculateMinutesAway(
+                                new com.google.android.gms.maps.model.LatLng(location.getLatitude(), location.getLongitude()),
+                                new com.google.android.gms.maps.model.LatLng(pickupLat, pickupLng)
+                        );
                         txtMinutesAway.setText(minutes + " min away");
 
                         if (distanceMeters <= 50) {
@@ -143,6 +129,7 @@ public class DriverContinueActivity extends AppCompatActivity implements OnMapRe
                     Toast.makeText(this, "Unable to get current location", Toast.LENGTH_SHORT).show();
                 });
     }
+
     private void listenForDriverResponse() {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         DocumentReference rideRef = db.collection("rides").document(rideId);
@@ -187,7 +174,6 @@ public class DriverContinueActivity extends AppCompatActivity implements OnMapRe
                     Intent intent = new Intent(DriverContinueActivity.this, DriverOnTripActivity.class);
                     intent.putExtra("rideId", rideId);
                     intent.putExtra("fare", fare);
-                    intent.putExtra("rideId", rideId);
                     intent.putExtra("pickupLat", pickupLat);
                     intent.putExtra("pickupLng", pickupLng);
                     startActivity(intent);
@@ -208,7 +194,6 @@ public class DriverContinueActivity extends AppCompatActivity implements OnMapRe
                     Intent intent = new Intent(this, DriverOnTripActivity.class);
                     intent.putExtra("rideId", rideId);
                     intent.putExtra("fare", fare);
-                    intent.putExtra("rideId", rideId);
                     intent.putExtra("pickupLat", pickupLat);
                     intent.putExtra("pickupLng", pickupLng);
                     startActivity(intent);

@@ -5,42 +5,37 @@ import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Marker;
-import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.material.button.MaterialButton;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.ListenerRegistration;
 import com.jollyride.mhealth.helper.AmbulanceModel;
+import com.jollyride.mhealth.widget.CustomRouteView;
 
 import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
 
-public class ArrivingActivity extends AppCompatActivity implements OnMapReadyCallback {
+public class ArrivingActivity extends BaseActivity {
 
     private ImageView backButton, menuButton;
     private ImageView btnCall, btnChat, btnCancel;
     private TextView txtPickup, txtDestination, txtMinutesAway;
     private ListenerRegistration rideListener;
 
-    private GoogleMap mMap;
-    private Marker ambulanceMarker;
+    private CustomRouteView customRouteView;
 
     private AmbulanceModel selectedAmbulance;
     private LatLng pickupLocation, destinationLocation, ambulanceLocation;
@@ -49,14 +44,13 @@ public class ArrivingActivity extends AppCompatActivity implements OnMapReadyCal
     private double fare;
 
     private boolean tripEnded = false;
-    private boolean isNavigated = false; // To prevent multiple navigations
+    private boolean isNavigated = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_arriving);
 
-        // Initialize UI
         backButton = findViewById(R.id.leftImage);
         menuButton = findViewById(R.id.rightImage);
         btnCall = findViewById(R.id.btnCall);
@@ -66,7 +60,8 @@ public class ArrivingActivity extends AppCompatActivity implements OnMapReadyCal
         txtDestination = findViewById(R.id.textDestination);
         txtMinutesAway = findViewById(R.id.timeText);
 
-        // Get intent extras
+        customRouteView = findViewById(R.id.customRouteView);
+
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             rideId = extras.getString("rideId");
@@ -93,10 +88,23 @@ public class ArrivingActivity extends AppCompatActivity implements OnMapReadyCal
                 );
 
                 txtPickup.setText(pickupName);
-                txtDestination.setText(getAddressFromLatLng(this, ambulanceLocation));
+                txtDestination.setText(getAddressFromLatLng(getApplicationContext(), ambulanceLocation));
 
                 int minutes = calculateMinutesAway(ambulanceLocation, pickupLocation);
                 txtMinutesAway.setText(minutes + " min");
+
+                // Set route points for custom view
+                customRouteView.setRoutePoints(pickupLocation, destinationLocation);
+
+                // Set pin images
+                customRouteView.setPickupDrawable(getDrawable(R.drawable.ambulance));
+                customRouteView.setDestinationDrawable(getDrawable(R.drawable.ic_hospital_marker));
+                customRouteView.setDriverDrawable(getDrawable(R.drawable.ic_ambulance_moving));
+
+                // Show driver initially
+                customRouteView.updateDriverLocation(ambulanceLocation);
+
+                simulateAmbulanceMovement();
             } else {
                 Toast.makeText(this, "Ambulance location missing", Toast.LENGTH_SHORT).show();
                 finish();
@@ -105,62 +113,16 @@ public class ArrivingActivity extends AppCompatActivity implements OnMapReadyCal
             Toast.makeText(this, "Missing ride data", Toast.LENGTH_SHORT).show();
             finish();
         }
-
+        menuButton.setOnClickListener(v -> {
+            toggleDrawer();
+        });
         listenForDriverResponse();
 
-        // Set listeners
         backButton.setOnClickListener(v -> finish());
         menuButton.setOnClickListener(v -> Toast.makeText(this, "Menu clicked", Toast.LENGTH_SHORT).show());
         btnCall.setOnClickListener(v -> Toast.makeText(this, "Call clicked", Toast.LENGTH_SHORT).show());
 
-        btnCancel.setOnClickListener(v -> {
-            if (rideId != null && !tripEnded) {
-                FirebaseFirestore.getInstance().collection("rides").document(rideId)
-                        .update("status", "canceled", "canceledAt", FieldValue.serverTimestamp())
-                        .addOnSuccessListener(unused -> {
-                            tripEnded = true;
-                            Toast.makeText(this, "Trip ended", Toast.LENGTH_SHORT).show();
-
-                            if (rideListener != null) rideListener.remove();
-
-                            Intent intent = new Intent(this, RiderHomeActivity.class);
-                            intent.putExtra("rideId", rideId);
-                            intent.putExtra("fare", fare);
-                            startActivity(intent);
-                            finish();
-                        })
-                        .addOnFailureListener(e -> {
-                            Toast.makeText(this, "Error ending trip: " + e.getMessage(), Toast.LENGTH_LONG).show();
-                        });
-            }
-        });
-
-        // Load map
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.routeMap);
-        if (mapFragment != null) {
-            mapFragment.getMapAsync(this);
-        }
-    }
-
-    @Override
-    public void onMapReady(@NonNull GoogleMap googleMap) {
-        mMap = googleMap;
-
-        if (ambulanceLocation != null) {
-            ambulanceMarker = mMap.addMarker(new MarkerOptions()
-                    .position(ambulanceLocation)
-                    .title("Ambulance")
-                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_ambulance_moving)));
-
-            mMap.addMarker(new MarkerOptions()
-                    .position(pickupLocation)
-                    .title("Pickup"));
-
-            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(ambulanceLocation, 14));
-
-            simulateAmbulanceMovement();
-        }
+        btnCancel.setOnClickListener(v -> cancelTrip());
     }
 
     private void simulateAmbulanceMovement() {
@@ -180,7 +142,8 @@ public class ArrivingActivity extends AppCompatActivity implements OnMapReadyCal
                     );
 
                     runOnUiThread(() -> {
-                        updateAmbulanceLocation(newLocation);
+                        ambulanceLocation = newLocation;
+                        customRouteView.updateDriverLocation(newLocation);
 
                         int minutes = calculateMinutesAway(newLocation, pickupLocation);
                         txtMinutesAway.setText(minutes + " min");
@@ -202,11 +165,25 @@ public class ArrivingActivity extends AppCompatActivity implements OnMapReadyCal
         }).start();
     }
 
-    private void updateAmbulanceLocation(LatLng newLocation) {
-        ambulanceLocation = newLocation;
-        if (ambulanceMarker != null) {
-            ambulanceMarker.setPosition(newLocation);
-            mMap.animateCamera(CameraUpdateFactory.newLatLng(newLocation));
+    private void cancelTrip() {
+        if (rideId != null && !tripEnded) {
+            FirebaseFirestore.getInstance().collection("rides").document(rideId)
+                    .update("status", "canceled", "canceledAt", FieldValue.serverTimestamp())
+                    .addOnSuccessListener(unused -> {
+                        tripEnded = true;
+                        Toast.makeText(this, "Trip ended", Toast.LENGTH_SHORT).show();
+
+                        if (rideListener != null) rideListener.remove();
+
+                        Intent intent = new Intent(this, RiderHomeActivity.class);
+                        intent.putExtra("rideId", rideId);
+                        intent.putExtra("fare", fare);
+                        startActivity(intent);
+                        finish();
+                    })
+                    .addOnFailureListener(e -> {
+                        Toast.makeText(this, "Error ending trip: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                    });
         }
     }
 
@@ -217,9 +194,9 @@ public class ArrivingActivity extends AppCompatActivity implements OnMapReadyCal
         Intent intent = new Intent(ArrivingActivity.this, ArrivedActivity.class);
         intent.putExtra("rideId", rideId);
         intent.putExtra("driverId", selectedAmbulance.getDriverId());
-        intent.putExtra("driverPhone", "+254700137450"); // Optional: pass from model
-        intent.putExtra("vehiclePlate", "KBQ 117Q");      // Optional: pass from model
-        intent.putExtra("vehicleModel", "MAZDA DEMIO");   // Optional: pass from model
+        intent.putExtra("driverPhone", "+254700137450");
+        intent.putExtra("vehiclePlate", "KBQ 117Q");
+        intent.putExtra("vehicleModel", "MAZDA DEMIO");
         intent.putExtra("pickupName", pickupName);
         intent.putExtra("destinationName", destinationName);
         intent.putExtra("fare", fare);
@@ -284,8 +261,7 @@ public class ArrivingActivity extends AppCompatActivity implements OnMapReadyCal
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (rideListener != null) {
-            rideListener.remove();
-        }
+        if (rideListener != null) rideListener.remove();
     }
 }
+

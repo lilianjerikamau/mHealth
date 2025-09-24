@@ -3,7 +3,6 @@ package com.jollyride.mhealth;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -14,26 +13,20 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Marker;
-import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.android.material.button.MaterialButton;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.GeoPoint;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.ListenerRegistration;
+import com.google.android.gms.maps.model.LatLng;
+import com.jollyride.mhealth.widget.CustomRouteView;
 
-public class DriverOnTripActivity extends AppCompatActivity implements OnMapReadyCallback {
+public class DriverOnTripActivity extends AppCompatActivity {
 
     private static final int REQUEST_CODE_PANIC_REASON = 101;
     private static final int REQUEST_CODE_LOCATION_PERMISSION = 200;
@@ -43,15 +36,15 @@ public class DriverOnTripActivity extends AppCompatActivity implements OnMapRead
     private MaterialButton buttonPanic, buttonEnd;
     private ProgressBar progressBarPanic, progressBarEnd;
 
-    private GoogleMap mMap;
-    private FusedLocationProviderClient fusedLocationClient;
     private ListenerRegistration rideListener;
     private String rideId;
-    private double fare;  // consider using double instead of String
+    private double fare;
     private LatLng pickupLocation, destinationLocation;
-    private Marker driverMarker;
 
     private boolean tripEnded = false;
+
+    private com.jollyride.mhealth.widget.CustomRouteView customRouteView;
+    private FusedLocationProviderClient fusedLocationClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,11 +64,14 @@ public class DriverOnTripActivity extends AppCompatActivity implements OnMapRead
         progressBarPanic = findViewById(R.id.progressBarPanic);
         progressBarEnd = findViewById(R.id.progressBarEnd);
 
+        customRouteView = findViewById(R.id.customRouteView);
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
 
+        // Top bar actions
         leftImage.setOnClickListener(v -> onBackPressed());
         rightImage.setOnClickListener(v -> Toast.makeText(this, "Menu clicked", Toast.LENGTH_SHORT).show());
 
+        // Panic button
         buttonPanic.setOnClickListener(v -> {
             progressBarPanic.setVisibility(View.VISIBLE);
             buttonPanic.setEnabled(false);
@@ -83,6 +79,7 @@ public class DriverOnTripActivity extends AppCompatActivity implements OnMapRead
             startActivityForResult(intent, REQUEST_CODE_PANIC_REASON);
         });
 
+        // End Trip button
         buttonEnd.setOnClickListener(v -> {
             if (rideId != null && !tripEnded) {
                 progressBarEnd.setVisibility(View.VISIBLE);
@@ -119,17 +116,10 @@ public class DriverOnTripActivity extends AppCompatActivity implements OnMapRead
             return;
         }
 
-        // Initialize map fragment
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.mapFragment);
-
-        if (mapFragment != null) {
-            mapFragment.getMapAsync(this);
-        }
         listenForDriverResponse();
-        // Fetch data from Firestore to fill pickup/destination
         fetchRideDetailsAndSetup();
     }
+
     private void listenForDriverResponse() {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         DocumentReference rideRef = db.collection("rides").document(rideId);
@@ -157,20 +147,19 @@ public class DriverOnTripActivity extends AppCompatActivity implements OnMapRead
             }
         });
     }
+
     private void fetchRideDetailsAndSetup() {
         FirebaseFirestore.getInstance().collection("rides")
                 .document(rideId)
                 .get()
                 .addOnSuccessListener(doc -> {
                     if (doc.exists()) {
-                        // Extract values
                         Double fareValue = doc.getDouble("fare");
                         GeoPoint pickupPoint = doc.getGeoPoint("pickupLocation");
                         GeoPoint destPoint = doc.getGeoPoint("destination");
                         String pickupName = doc.getString("pickupLocationName");
                         String destName = doc.getString("destinationName");
 
-                        // Set class fields
                         if (fareValue != null) fare = fareValue;
                         if (pickupPoint != null) {
                             pickupLocation = new LatLng(pickupPoint.getLatitude(), pickupPoint.getLongitude());
@@ -179,28 +168,14 @@ public class DriverOnTripActivity extends AppCompatActivity implements OnMapRead
                             destinationLocation = new LatLng(destPoint.getLatitude(), destPoint.getLongitude());
                         }
 
-                        // Update UI
                         textPickup.setText(pickupName != null ? pickupName : "Pickup location");
                         textDestination.setText(destName != null ? destName : "Destination");
 
-                        // If map is ready, show markers etc.
-                        if (mMap != null) {
-                            // show markers & polyline
-                            if (pickupLocation != null) {
-                                mMap.addMarker(new MarkerOptions().position(pickupLocation).title("Pickup"));
-                                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(pickupLocation, 13f));
-                            }
-                            if (destinationLocation != null) {
-                                mMap.addMarker(new MarkerOptions().position(destinationLocation).title("Destination"));
-                            }
-                            if (pickupLocation != null && destinationLocation != null) {
-                                mMap.addPolyline(new PolylineOptions()
-                                        .add(pickupLocation, destinationLocation)
-                                        .color(Color.BLUE)
-                                        .width(8));
-                            }
-                        }
-
+                        customRouteView.setLocations(pickupLocation, destinationLocation);
+                        customRouteView.setPickupDrawable(ContextCompat.getDrawable(this, R.drawable.ambulance));
+                        customRouteView.setDestinationDrawable(ContextCompat.getDrawable(this, R.drawable.ic_hospital_marker));
+                        customRouteView.setDriverDrawable(ContextCompat.getDrawable(this, R.drawable.ambulance));
+                        startUpdatingDriverLocation();
                     } else {
                         Toast.makeText(this, "Ride details not found", Toast.LENGTH_LONG).show();
                         finish();
@@ -212,41 +187,8 @@ public class DriverOnTripActivity extends AppCompatActivity implements OnMapRead
                 });
     }
 
-    @Override
-    public void onMapReady(@NonNull GoogleMap googleMap) {
-        mMap = googleMap;
-
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
-                != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this,
-                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-                    REQUEST_CODE_LOCATION_PERMISSION);
-            return;
-        }
-
-        mMap.setMyLocationEnabled(true);
-        mMap.getUiSettings().setMyLocationButtonEnabled(true);
-
-        // If we already loaded the ride details by now, show markers
-        if (pickupLocation != null) {
-            mMap.addMarker(new MarkerOptions().position(pickupLocation).title("Pickup"));
-            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(pickupLocation, 13f));
-        }
-        if (destinationLocation != null) {
-            mMap.addMarker(new MarkerOptions().position(destinationLocation).title("Destination"));
-        }
-        if (pickupLocation != null && destinationLocation != null) {
-            mMap.addPolyline(new PolylineOptions()
-                    .add(pickupLocation, destinationLocation)
-                    .color(Color.BLUE)
-                    .width(8));
-        }
-
-        startUpdatingDriverLocation();
-    }
-
     private void startUpdatingDriverLocation() {
-        View mapView = findViewById(R.id.mapFragment);
+        View mapView = findViewById(R.id.customRouteView);
         mapView.postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -260,16 +202,9 @@ public class DriverOnTripActivity extends AppCompatActivity implements OnMapRead
 
                 fusedLocationClient.getLastLocation()
                         .addOnSuccessListener(location -> {
-                            if (location != null && mMap != null) {
+                            if (location != null) {
                                 LatLng driverLatLng = new LatLng(location.getLatitude(), location.getLongitude());
-
-                                if (driverMarker == null) {
-                                    driverMarker = mMap.addMarker(new MarkerOptions().position(driverLatLng).title("You"));
-                                } else {
-                                    driverMarker.setPosition(driverLatLng);
-                                }
-
-                                mMap.animateCamera(CameraUpdateFactory.newLatLng(driverLatLng));
+                                customRouteView.updateDriverLocation(driverLatLng);
                             }
                         })
                         .addOnFailureListener(e -> Toast.makeText(DriverOnTripActivity.this,
@@ -287,11 +222,7 @@ public class DriverOnTripActivity extends AppCompatActivity implements OnMapRead
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == REQUEST_CODE_LOCATION_PERMISSION) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                        .findFragmentById(R.id.mapFragment);
-                if (mapFragment != null) {
-                    mapFragment.getMapAsync(this);
-                }
+                startUpdatingDriverLocation();
             } else {
                 Toast.makeText(this, "Location permission is required", Toast.LENGTH_LONG).show();
             }
@@ -314,8 +245,7 @@ public class DriverOnTripActivity extends AppCompatActivity implements OnMapRead
                         "Panic Reason: " + panicReason +
                                 (panicMessage != null && !panicMessage.isEmpty() ? "\nMessage: " + panicMessage : ""),
                         Toast.LENGTH_LONG).show();
-
-                // Send to backend if needed
+                // send to backend if needed
             }
         }
     }

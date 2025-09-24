@@ -8,41 +8,36 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.LatLngBounds;
-import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.ListenerRegistration;
 import com.jollyride.mhealth.adapter.AmbulanceOptionAdapter;
 import com.jollyride.mhealth.helper.AmbulanceModel;
 import com.jollyride.mhealth.helper.DistanceUtils;
+import com.jollyride.mhealth.widget.CustomRouteView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class BookingDetailsActivity extends AppCompatActivity implements OnMapReadyCallback {
+public class BookingDetailsActivity extends BaseActivity {
 
     private Button bookRideButton;
     private ImageView backButton, menuButton;
     private RecyclerView ambulanceRecycler;
-    private GoogleMap mMap;
     private ArrayList<AmbulanceModel> ambulances;
     private AmbulanceModel selectedAmbulance = null;
-    private TextView etaText;
+    private TextView etaText,etaBubble;
     private String rideId, customerId, pickupLocationName, destinationName, destinationAddress, status;
     private double pickupLat, pickupLng, destinationLat, destinationLng, fare;
 
     private ListenerRegistration rideListener;
+
+    private CustomRouteView customRouteView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,16 +62,27 @@ public class BookingDetailsActivity extends AppCompatActivity implements OnMapRe
             fare = extras.getDouble("fare", 0);
         }
 
+        // UI setup
         bookRideButton = findViewById(R.id.bookRideButton);
         backButton = findViewById(R.id.backButton);
         menuButton = findViewById(R.id.menuButton);
         ambulanceRecycler = findViewById(R.id.ambulanceRecycler);
-        etaText=findViewById(R.id.etaText);
-        LatLng pickupLocation = new LatLng(pickupLat, pickupLng);
-        LatLng destinationLocation = new LatLng(destinationLat, destinationLng);
+        etaText = findViewById(R.id.etaText);
+        etaBubble=findViewById(R.id.etaBubble);
+        customRouteView = findViewById(R.id.customRouteView);
 
-        int etaMinutes = DistanceUtils.calculateMinutesAway(pickupLocation, destinationLocation);
-        etaText.setText("Estimated trip time "+etaMinutes + " min");
+        // ETA
+        int etaMinutes = DistanceUtils.calculateMinutesAway(
+                new com.google.android.gms.maps.model.LatLng(pickupLat, pickupLng),
+                new com.google.android.gms.maps.model.LatLng(destinationLat, destinationLng)
+        );
+        etaText.setText("Estimated trip time " + etaMinutes + " min");
+        etaBubble.setText(etaMinutes + " min");
+        menuButton.setOnClickListener(v -> {
+          toggleDrawer();
+        });
+
+        // Ambulance list
         ambulanceRecycler.setLayoutManager(new LinearLayoutManager(this));
         AmbulanceOptionAdapter adapter = new AmbulanceOptionAdapter(
                 ambulances,
@@ -90,8 +96,7 @@ public class BookingDetailsActivity extends AppCompatActivity implements OnMapRe
         );
         ambulanceRecycler.setAdapter(adapter);
 
-        ambulanceRecycler.setAdapter(adapter);
-
+        // Book ride
         bookRideButton.setOnClickListener(v -> {
             if (selectedAmbulance == null) {
                 Toast.makeText(this, "Please select an ambulance first", Toast.LENGTH_SHORT).show();
@@ -100,7 +105,6 @@ public class BookingDetailsActivity extends AppCompatActivity implements OnMapRe
 
             FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-            // 1. Update ride document with selected driver
             db.collection("rides").document(rideId)
                     .update(
                             "driverId", selectedAmbulance.getDriverId(),
@@ -108,12 +112,8 @@ public class BookingDetailsActivity extends AppCompatActivity implements OnMapRe
                             "manuallyAssigned", true
                     )
                     .addOnSuccessListener(aVoid -> {
-                        // 2. Send the ride request to the driver
                         sendRideRequestToDriver(db, selectedAmbulance.getDriverId());
-
-                        // 3. Start listening for driver response
                         listenForDriverResponse();
-
                         Toast.makeText(this, "Waiting for driver to accept...", Toast.LENGTH_SHORT).show();
                     })
                     .addOnFailureListener(e -> {
@@ -123,10 +123,12 @@ public class BookingDetailsActivity extends AppCompatActivity implements OnMapRe
 
         backButton.setOnClickListener(v -> finish());
 
-        SupportMapFragment mapFragment = (SupportMapFragment)
-                getSupportFragmentManager().findFragmentById(R.id.routeMap);
-        if (mapFragment != null) {
-            mapFragment.getMapAsync(this);
+        // ✅ Set pickup & drop-off points in CustomRouteView
+        if (customRouteView != null) {
+            customRouteView.setRoutePoints(pickupLat, pickupLng, destinationLat, destinationLng);
+            customRouteView.setPickupDrawable(ContextCompat.getDrawable(this, R.drawable.pickup_pin));
+            customRouteView.setDestinationDrawable(ContextCompat.getDrawable(this, R.drawable.dest_pin));
+            customRouteView.setDriverDrawable(ContextCompat.getDrawable(this, R.drawable.pickup_pin));
         }
     }
 
@@ -205,28 +207,5 @@ public class BookingDetailsActivity extends AppCompatActivity implements OnMapRe
         if (rideListener != null) {
             rideListener.remove();
         }
-    }
-
-    @Override
-    public void onMapReady(GoogleMap googleMap) {
-        mMap = googleMap;
-        if (pickupLat != 0 && pickupLng != 0 && destinationLat != 0 && destinationLng != 0) {
-            showPickupAndDropoffOnMap();
-        }
-    }
-
-    private void showPickupAndDropoffOnMap() {
-        LatLng pickup = new LatLng(pickupLat, pickupLng);
-        LatLng dropoff = new LatLng(destinationLat, destinationLng);
-
-        mMap.clear();
-        mMap.addMarker(new MarkerOptions().position(pickup).title("Pickup: " + pickupLocationName));
-        mMap.addMarker(new MarkerOptions().position(dropoff).title("Drop-off: " + destinationName));
-
-        LatLngBounds.Builder builder = new LatLngBounds.Builder();
-        builder.include(pickup);
-        builder.include(dropoff);
-
-        mMap.moveCamera(CameraUpdateFactory.newLatLngBounds(builder.build(), 100));
     }
 }

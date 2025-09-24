@@ -11,6 +11,8 @@ import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.widget.AutoCompleteTextView;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.OnBackPressedCallback;
@@ -41,13 +43,13 @@ public class RiderHomeActivity extends BaseActivity {
     private GestureDetector gestureDetector;
     FusedLocationProviderClient fusedLocationProviderClient;
     FirebaseFirestore db;
-
+    ImageView rightImage;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rider_home);
         Log.d("RIDER_HOME", "onCreate: Layout set.");
-
+        rightImage= findViewById(R.id.rightImage);
         this.getOnBackPressedDispatcher().addCallback(this,
                 new OnBackPressedCallback(true) {
                     @Override

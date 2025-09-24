@@ -29,16 +29,19 @@
         android:scaleType="centerInside" />
 
     <!-- Google Map -->
-    <fragment
-        android:id="@+id/mapFragment"
-        android:name="com.google.android.gms.maps.SupportMapFragment"
+
+    <com.jollyride.mhealth.widget.CustomRouteView
+        android:id="@+id/customRouteView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_below="@id/txtTitle"
         android:layout_above="@id/bottomCard"
         android:layout_marginTop="20dp"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
         android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentEnd="true"  />
+
 
     <!-- Bottom Card -->
     <RelativeLayout

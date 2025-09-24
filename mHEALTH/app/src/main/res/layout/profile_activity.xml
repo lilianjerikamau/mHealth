@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/main2">
+
+    <!-- Toolbar -->
+    <com.google.android.material.appbar.MaterialToolbar
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        app:navigationIcon="@drawable/icon_back_btn"
+        app:title="Profile"
+        app:titleCentered="true"
+        app:titleTextColor="@android:color/black" />
+
+    <!-- Profile Info -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="16dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center_horizontal">
+
+            <!-- Profile Picture -->
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/profile_image"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:src="@drawable/ic_user_driver"
+                app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Full" />
+
+            <!-- Name -->
+            <TextView
+                android:id="@+id/tv_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Simon Chao"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:layout_marginTop="12dp"/>
+
+            <!-- Card Info -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="4dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/rounded_map_background"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:text="+211 912 345 678"
+                        style="@style/TextAppearance.Material3.BodyLarge"/>
+
+                    <View android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="?attr/colorOutline"/>
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:text="simon@jos-ss.org"
+                        style="@style/TextAppearance.Material3.BodyLarge"
+                        android:paddingTop="8dp"/>
+
+                    <View android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="?attr/colorOutline"/>
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:text="chao24"
+                        style="@style/TextAppearance.Material3.BodyLarge"
+                        android:paddingTop="8dp"/>
+
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Settings -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_gravity="start"
+                android:layout_height="wrap_content"
+                android:text="Notifications"
+                android:textStyle="bold"
+                android:layout_marginTop="24dp"/>
+
+            <Switch
+                android:id="@+id/switch_notifications"
+                android:layout_gravity="start"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="For receiving driver messages"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:text="Delete Account"
+                android:textStyle="bold"
+                android:layout_marginTop="16dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Sign-Off"
+                android:layout_gravity="start"
+                android:textStyle="bold"
+                android:layout_marginTop="16dp"/>
+
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_update_account"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/main1"
+                android:padding="20dp"
+                android:text="Update Account"
+                android:textColor="@color/main2"
+                android:textSize="20sp"
+                app:cornerRadius="15dp"
+
+                android:elevation="2dp"
+
+                android:clipToOutline="true"
+                android:layout_marginTop="50dp"
+                />
+
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

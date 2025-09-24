@@ -54,13 +54,13 @@
     </LinearLayout>
 
     <!-- Google Map Fragment -->
-    <fragment
-        android:id="@+id/mapFragment"
-        android:name="com.google.android.gms.maps.SupportMapFragment"
+
+    <com.jollyride.mhealth.widget.CustomRouteView
+        android:id="@+id/customRouteView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="56dp"
-        android:layout_weight="1"/>
+        android:layout_weight="1" />
 
 <!--    &lt;!&ndash; Floating GPS Icon &ndash;&gt;-->
 <!--    <com.google.android.material.floatingactionbutton.FloatingActionButton-->

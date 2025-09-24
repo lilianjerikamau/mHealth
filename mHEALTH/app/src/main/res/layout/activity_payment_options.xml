@@ -33,10 +33,9 @@
         android:layout_margin="16dp"
         android:src="@drawable/ic_menu" />
 
-    <!-- Google Map fragment showing route -->
-    <fragment
-        android:id="@+id/mapFragment"
-        android:name="com.google.android.gms.maps.SupportMapFragment"
+
+    <com.jollyride.mhealth.widget.CustomRouteView
+        android:id="@+id/customRouteView"
         android:layout_width="match_parent"
         android:layout_height="150dp"
         android:layout_below="@id/titleText"
@@ -45,7 +44,7 @@
     <!-- Select payment section -->
     <LinearLayout
         android:id="@+id/selectPaymentSection"
-        android:layout_below="@id/mapFragment"
+        android:layout_below="@id/customRouteView"
         android:layout_marginTop="24dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

@@ -1,0 +1,358 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/main2"
+    android:padding="16dp">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <!-- Toolbar with Back button and Title -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <ImageButton
+                android:id="@+id/backButton"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="@color/main2"
+                android:src="@drawable/icon_back_btn"
+                android:contentDescription="Back" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Ride details"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="#4A5C6B"
+                android:layout_marginStart="16dp" />
+        </LinearLayout>
+
+        <!-- Route Illustration -->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="160dp"
+            android:layout_marginTop="16dp"
+            android:background="@android:color/transparent">
+
+            <!-- Circle with 2 min text -->
+            <TextView
+                android:id="@+id/routeTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/eta_bubble"
+                android:backgroundTint="@color/main1"
+                android:text="2 min"
+                android:layout_above="@+id/pin"
+                android:textColor="#FFFFFF"
+                android:textSize="12sp"
+                android:padding="6dp"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="24dp" />
+
+            <!-- Circle behind dot -->
+
+
+            <!-- Dot in circle -->
+            <View
+                android:id="@+id/pin"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="@drawable/pickup_pin"
+                android:layout_marginStart="30dp"
+                android:layout_marginTop="30dp"
+                android:layout_alignParentStart="true" />
+
+            <!-- Ambulance Icon -->
+            <ImageView
+                android:id="@+id/ambulanceIcon"
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:src="@drawable/ambulance"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="24dp"
+                android:layout_marginTop="48dp" />
+
+            <!-- Route Path Line (Use a Path drawable or custom view if needed) -->
+            <!-- For demo, a simple View can represent the path -->
+            <View
+                android:id="@+id/routePath"
+                android:layout_width="150dp"
+                android:layout_height="4dp"
+                android:background="#3F566D"
+                android:layout_toEndOf="@id/routeTime"
+                android:layout_marginStart="8dp"
+                android:layout_centerVertical="true" />
+
+        </RelativeLayout>
+
+        <!-- Date & Time Section -->
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="16dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginBottom="24dp"
+            android:backgroundTint="#C2DBE7"
+            android:backgroundTintMode="src_in"
+            android:clipToOutline="true"
+            android:elevation="2dp"
+            android:background="@drawable/rounded_map_background">
+
+            <TextView
+                android:id="@+id/dateTimeText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="8 APRIL 2022, 18:39"
+                android:textStyle="bold"
+                android:textColor="#4A5C6B"
+                android:textAllCaps="true"
+                android:textSize="14sp"
+                android:layout_marginBottom="8dp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#5F7E9D"
+                android:layout_marginBottom="12dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <!-- Left time column -->
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="56dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal">
+
+                    <TextView
+                        android:id="@+id/pickupTime"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="11:24"
+                        android:textColor="#66798E"
+                        android:textSize="12sp" />
+
+                    <View
+                        android:layout_width="1dp"
+                        android:layout_height="32dp"
+                        android:background="#5F7E9D"
+                        android:layout_marginVertical="2dp" />
+
+                    <ImageView
+                        android:layout_width="12dp"
+                        android:layout_height="12dp"
+                        android:src="@drawable/down_arrow"
+                        app:tint="#5F7E9D" />
+
+                    <View
+                        android:layout_width="1dp"
+                        android:layout_height="40dp"
+                        android:background="#5F7E9D"
+                        android:layout_marginTop="2dp" />
+
+                    <TextView
+                        android:id="@+id/destinationTime"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="11:38"
+                        android:textColor="#66798E"
+                        android:textSize="12sp"
+                        android:layout_marginTop="8dp" />
+                </LinearLayout>
+
+                <!-- Address column -->
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="16dp">
+
+                    <TextView
+                        android:id="@+id/pickupAddressText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="107 road, Munuki Block “c”, Juba, South Sudan"
+                        android:textColor="#4A5C6B"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:id="@+id/destinationAddressText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Suk Jebel Shopping Centre, Juba, South Sudan"
+                        android:textColor="#4A5C6B"
+                        android:textSize="14sp"
+                        android:layout_marginTop="8dp" />
+                </LinearLayout>
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <!-- User Section -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="USER"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:textColor="#4A5C6B" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="24dp"
+            android:clipToOutline="true"
+            android:elevation="2dp"
+            android:background="@drawable/rounded_map_background"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <View
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                android:background="#4A5C6B"
+                android:layout_marginEnd="16dp"
+                android:backgroundTintMode="src_in"
+                android:clipToOutline="true"
+                android:shape="oval" />
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/userNameText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Suzzane Gideon"
+                    android:textSize="16sp"
+                    android:textColor="#4A5C6B"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/userGenderText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Fe-male"
+                    android:textSize="14sp"
+                    android:textColor="#4A5C6B" />
+
+                <TextView
+                    android:id="@+id/userSerialNumberText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="SN: T728"
+                    android:textSize="14sp"
+                    android:textColor="#4A5C6B" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- Payment Received Section -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Payment Received"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:textColor="#4A5C6B" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_marginTop="8dp"
+            android:backgroundTint="@color/main1"
+            android:gravity="center_vertical"
+            android:paddingStart="24dp"
+            android:paddingEnd="24dp"
+            android:orientation="horizontal"
+            android:clipToOutline="true"
+            android:elevation="2dp"
+            android:background="@drawable/rounded_map_background">
+
+            <TextView
+                android:id="@+id/paymentMethodText"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="CASH"
+                android:textColor="#C2DBE7"
+                android:textSize="14sp"
+                android:layout_weight="1" />
+
+            <TextView
+                android:id="@+id/paymentCurrencyText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="SSP"
+                android:textColor="#C2DBE7"
+                android:textSize="14sp"
+                android:layout_marginEnd="4dp" />
+
+            <TextView
+                android:id="@+id/paymentAmountText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="500.00"
+                android:textColor="#C2DBE7"
+                android:textSize="24sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <!-- Bottom Buttons -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:paddingBottom="24dp">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/raiseComplaintsButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/main1"
+                android:padding="20dp"
+                android:text="Raise Complains"
+                android:textColor="@color/main2"
+                android:textSize="20sp"
+                app:cornerRadius="15dp"
+                android:layout_weight="1"
+                android:layout_marginEnd="16dp"
+                android:elevation="2dp"
+                android:backgroundTintMode="src_in"
+                android:clipToOutline="true"
+
+                />
+
+            <ImageButton
+                android:id="@+id/closeButton"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:src="@drawable/ic_close_btn"
+                android:elevation="2dp"
+                android:backgroundTintMode="src_in"
+                android:clipToOutline="true"
+                android:background="@drawable/circle_background_peach" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+</ScrollView>
