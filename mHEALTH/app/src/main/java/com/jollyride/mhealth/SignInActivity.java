@@ -45,14 +45,12 @@ public class SignInActivity extends BaseActivity {
                     }
                 });
 
-
-
         TextInputEditText userNameEditText = findViewById(R.id.userNameEditText);
         TextInputEditText passwordEditText = findViewById(R.id.passwordEditText);
         progressBar = findViewById(R.id.progressBar);
-        signInButtom  = findViewById(R.id.signInButtom);
-        TextView signInDriverButtom  = findViewById(R.id.signInDriverButtom);
-        TextView goToSignUp  = findViewById(R.id.goToSignUp);
+        signInButtom = findViewById(R.id.signInButtom);
+        TextView signInDriverButtom = findViewById(R.id.signInDriverButtom);
+        TextView goToSignUp = findViewById(R.id.goToSignUp);
 
         signInButtom.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -61,7 +59,7 @@ public class SignInActivity extends BaseActivity {
                 String password = passwordEditText.getText().toString().trim();
                 signInButtom.setVisibility(View.GONE);
                 progressBar.setVisibility(View.VISIBLE);
-                signInUser(userName,password,"rider");
+                signInUser(userName, password, "rider");
             }
         });
         signInDriverButtom.setOnClickListener(new View.OnClickListener() {
@@ -69,7 +67,7 @@ public class SignInActivity extends BaseActivity {
             public void onClick(View v) {
                 String userName = userNameEditText.getText().toString().trim();
                 String password = passwordEditText.getText().toString().trim();
-                signInUser(userName,password,"driver");
+                signInUser(userName, password, "driver");
             }
         });
 
@@ -96,18 +94,24 @@ public class SignInActivity extends BaseActivity {
             mAuth.signInWithEmailAndPassword(identifier, password)
                     .addOnSuccessListener(authResult -> {
                         Toast.makeText(this, "Logged in via email", Toast.LENGTH_SHORT).show();
+
+                        // 🔥 Update userType in Firestore
+                        String userId = mAuth.getCurrentUser().getUid();
+                        db.collection("users").document(userId)
+                                .update("userType", userType)
+                                .addOnSuccessListener(unused -> Log.d("Firestore", "User type set to: " + userType))
+                                .addOnFailureListener(e -> Log.e("Firestore", "Failed to set user type: " + e.getMessage()));
+
                         // Proceed to next activity
-                        if(userType.equals("rider")) {
+                        if (userType.equals("rider")) {
                             Intent intent = new Intent(SignInActivity.this, RiderHomeActivity.class);
                             startActivity(intent);
-                            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
-                            finish();
-                        }else{
+                        } else {
                             Intent intent = new Intent(SignInActivity.this, DriverHomeActivity.class);
                             startActivity(intent);
-                            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
-                            finish();
                         }
+                        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                        finish();
                     })
                     .addOnFailureListener(e -> {
                         signInButtom.setVisibility(View.VISIBLE);
@@ -128,25 +132,30 @@ public class SignInActivity extends BaseActivity {
                                 // 🔐 Sign in with email and password
                                 mAuth.signInWithEmailAndPassword(email, password)
                                         .addOnSuccessListener(authResult -> {
-                                            //Toast.makeText(this, "Logged in with username via email", Toast.LENGTH_SHORT).show();
                                             Log.d("Sign In", "Logged in with username via email");
-                                            if(userType.equals("rider")) {
+
+                                            // 🔥 Update userType in Firestore
+                                            String userId = mAuth.getCurrentUser().getUid();
+                                            db.collection("users").document(userId)
+                                                    .update("userType", userType)
+                                                    .addOnSuccessListener(unused -> Log.d("Firestore", "User type set to: " + userType))
+                                                    .addOnFailureListener(e -> Log.e("Firestore", "Failed to set user type: " + e.getMessage()));
+
+                                            if (userType.equals("rider")) {
                                                 Intent intent = new Intent(SignInActivity.this, RiderHomeActivity.class);
                                                 startActivity(intent);
-                                                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
-                                                finish();
-                                            }else{
+                                            } else {
                                                 Intent intent = new Intent(SignInActivity.this, DriverHomeActivity.class);
                                                 startActivity(intent);
-                                                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
-                                                finish();
                                             }
+                                            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                                            finish();
                                         })
-                                        .addOnFailureListener(e ->{
+                                        .addOnFailureListener(e -> {
                                             signInButtom.setVisibility(View.VISIBLE);
                                             progressBar.setVisibility(View.GONE);
                                             Toast.makeText(this, "Login failed: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                                            Log.e("Sign In","Login failed: " + e.getMessage());
+                                            Log.e("Sign In", "Login failed: " + e.getMessage());
                                         });
                             } else if (!TextUtils.isEmpty(phone)) {
                                 // 🔄 Fallback to phone login
@@ -169,6 +178,7 @@ public class SignInActivity extends BaseActivity {
                     });
         }
     }
+
     private void startPhoneLogin(String phoneNumber) {
         PhoneAuthOptions options = PhoneAuthOptions.newBuilder(FirebaseAuth.getInstance())
                 .setPhoneNumber(phoneNumber)
@@ -187,20 +197,16 @@ public class SignInActivity extends BaseActivity {
                     public void onVerificationFailed(FirebaseException e) {
                         signInButtom.setVisibility(View.VISIBLE);
                         progressBar.setVisibility(View.GONE);
-                        //Toast.makeText(SignInActivity.this, "Verification failed: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                        Log.e("Sign In","Verification failed: " + e.getMessage());
+                        Log.e("Sign In", "Verification failed: " + e.getMessage());
                     }
 
                     @Override
                     public void onCodeSent(@NonNull String verificationId,
                                            @NonNull PhoneAuthProvider.ForceResendingToken token) {
-                        // Save verificationId to verify later
                         Toast.makeText(SignInActivity.this, "OTP sent to your phone.", Toast.LENGTH_SHORT).show();
                     }
                 }).build();
 
         PhoneAuthProvider.verifyPhoneNumber(options);
     }
-
-
 }

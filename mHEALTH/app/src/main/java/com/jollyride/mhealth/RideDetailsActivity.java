@@ -1,7 +1,11 @@
 package com.jollyride.mhealth;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -14,7 +18,7 @@ import java.util.Locale;
 public class RideDetailsActivity extends AppCompatActivity {
 
     private TextView fromAddress, toAddress, userName, gender, sn, amount, dateTime;
-
+    private LinearLayout driverDetail;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,7 +31,7 @@ public class RideDetailsActivity extends AppCompatActivity {
         sn = findViewById(R.id.userSerialNumberText);
         amount = findViewById(R.id.paymentAmountText);
         dateTime = findViewById(R.id.dateTimeText);
-
+        driverDetail= findViewById(R.id.driverDetail);
         // Get intent data safely
         String from = getIntent().getStringExtra("pickup");
         String to = getIntent().getStringExtra("destination");
@@ -43,6 +47,10 @@ public class RideDetailsActivity extends AppCompatActivity {
         userName.setText(name != null ? name : "Unknown User");
         gender.setText(sex != null ? sex : "-");
         sn.setText(serial != null ? "SN: " + serial : "SN: -");
+
+        driverDetail.setOnClickListener(v -> {
+            startActivity(new Intent(this, UserDetailsActivity.class));
+        });
 
         // Format amount as "SSP 500.00"
         amount.setText(formatAmount(pay));

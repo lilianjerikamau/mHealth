@@ -119,7 +119,9 @@ public class ArrivingActivity extends BaseActivity {
         listenForDriverResponse();
 
         backButton.setOnClickListener(v -> finish());
-        menuButton.setOnClickListener(v -> Toast.makeText(this, "Menu clicked", Toast.LENGTH_SHORT).show());
+        menuButton.setOnClickListener(v -> {
+            toggleDrawer();
+        });
         btnCall.setOnClickListener(v -> Toast.makeText(this, "Call clicked", Toast.LENGTH_SHORT).show());
 
         btnCancel.setOnClickListener(v -> cancelTrip());

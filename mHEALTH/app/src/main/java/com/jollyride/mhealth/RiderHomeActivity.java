@@ -50,6 +50,7 @@ public class RiderHomeActivity extends BaseActivity {
         setContentView(R.layout.activity_rider_home);
         Log.d("RIDER_HOME", "onCreate: Layout set.");
         rightImage= findViewById(R.id.rightImage);
+        rightImage.setOnClickListener(v -> toggleDrawer());
         this.getOnBackPressedDispatcher().addCallback(this,
                 new OnBackPressedCallback(true) {
                     @Override

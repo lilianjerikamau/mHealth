@@ -16,7 +16,7 @@
         app:titleCentered="true"
         app:titleTextColor="@android:color/black" />
 
-    <!-- Content -->
+    <!-- Scrollable FAQ content -->
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -36,26 +36,38 @@
                 android:textSize="18sp"
                 android:paddingVertical="8dp" />
 
-            <com.google.android.material.divider.MaterialDivider android:layout_height="match_parent" android:layout_width="wrap_content"/>
+            <com.google.android.material.divider.MaterialDivider
+                android:layout_width="match_parent"
+                android:layout_height="1dp" />
 
             <com.google.android.material.textview.MaterialTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:text="Unblock account"
                 style="@style/TextAppearance.Material3.BodyLarge"
-                android:padding="12dp"/>
+                android:padding="12dp" />
 
-            <com.google.android.material.divider.MaterialDivider android:layout_height="match_parent" android:layout_width="wrap_content"/>
+            <com.google.android.material.divider.MaterialDivider
+                android:layout_width="match_parent"
+                android:layout_height="1dp" />
 
             <com.google.android.material.textview.MaterialTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:text="Change phone number"
                 style="@style/TextAppearance.Material3.BodyLarge"
-                android:padding="12dp"/>
+                android:padding="12dp" />
 
-            <com.google.android.material.divider.MaterialDivider android:layout_height="match_parent" android:layout_width="wrap_content"/>
+            <com.google.android.material.divider.MaterialDivider
+                android:layout_width="match_parent"
+                android:layout_height="1dp" />
 
             <com.google.android.material.textview.MaterialTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:text="Privacy information"
                 style="@style/TextAppearance.Material3.BodyLarge"
-                android:padding="12dp"/>
+                android:padding="12dp" />
 
             <!-- Payment Section -->
             <TextView
@@ -65,51 +77,75 @@
                 android:textStyle="bold"
                 android:textSize="18sp"
                 android:paddingTop="16dp"
-                android:paddingBottom="8dp"/>
+                android:paddingBottom="8dp" />
 
-            <com.google.android.material.divider.MaterialDivider android:layout_height="match_parent" android:layout_width="wrap_content" />
+            <com.google.android.material.divider.MaterialDivider
+                android:layout_width="match_parent"
+                android:layout_height="1dp" />
 
             <com.google.android.material.textview.MaterialTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:text="Accepted payment methods"
                 style="@style/TextAppearance.Material3.BodyLarge"
-                android:padding="12dp"/>
+                android:padding="12dp" />
 
-            <com.google.android.material.divider.MaterialDivider android:layout_height="match_parent" android:layout_width="wrap_content" />
+            <com.google.android.material.divider.MaterialDivider
+                android:layout_width="match_parent"
+                android:layout_height="1dp" />
 
             <com.google.android.material.textview.MaterialTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:text="Price estimation"
                 style="@style/TextAppearance.Material3.BodyLarge"
-                android:padding="12dp"/>
+                android:padding="12dp" />
 
-            <com.google.android.material.divider.MaterialDivider android:layout_height="match_parent" android:layout_width="wrap_content" />
+            <com.google.android.material.divider.MaterialDivider
+                android:layout_width="match_parent"
+                android:layout_height="1dp" />
 
             <com.google.android.material.textview.MaterialTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:text="Ride cancellation fee"
                 style="@style/TextAppearance.Material3.BodyLarge"
-                android:padding="12dp"/>
+                android:padding="12dp" />
 
-            <com.google.android.material.divider.MaterialDivider android:layout_height="match_parent" android:layout_width="wrap_content" />
+            <com.google.android.material.divider.MaterialDivider
+                android:layout_width="match_parent"
+                android:layout_height="1dp" />
 
             <com.google.android.material.textview.MaterialTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:text="Damage or cleaning fee"
                 style="@style/TextAppearance.Material3.BodyLarge"
-                android:padding="12dp"/>
+                android:padding="12dp" />
 
-            <com.google.android.material.divider.MaterialDivider  android:layout_height="match_parent" android:layout_width="wrap_content"/>
+            <com.google.android.material.divider.MaterialDivider
+                android:layout_width="match_parent"
+                android:layout_height="1dp" />
 
             <com.google.android.material.textview.MaterialTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:text="Price higher than expected"
                 style="@style/TextAppearance.Material3.BodyMedium"
                 android:textColor="@android:color/darker_gray"
-                android:padding="12dp"/>
+                android:padding="12dp" />
 
-            <com.google.android.material.divider.MaterialDivider android:layout_height="match_parent" android:layout_width="wrap_content" />
+            <com.google.android.material.divider.MaterialDivider
+                android:layout_width="match_parent"
+                android:layout_height="1dp" />
 
             <com.google.android.material.textview.MaterialTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:text="Using a coupon"
                 style="@style/TextAppearance.Material3.BodyMedium"
                 android:textColor="@android:color/darker_gray"
-                android:padding="12dp"/>
+                android:padding="12dp" />
 
         </LinearLayout>
     </ScrollView>

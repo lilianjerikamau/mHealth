@@ -197,7 +197,7 @@
                         android:text="Suk Jebel Shopping Centre, Juba, South Sudan"
                         android:textColor="#4A5C6B"
                         android:textSize="14sp"
-                        android:layout_marginTop="8dp" />
+                        android:layout_marginTop="55dp" />
                 </LinearLayout>
             </LinearLayout>
 
@@ -213,6 +213,7 @@
             android:textColor="#4A5C6B" />
 
         <LinearLayout
+            android:id="@+id/driverDetail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="16dp"
@@ -224,14 +225,11 @@
             android:orientation="horizontal"
             android:gravity="center_vertical">
 
-            <View
-                android:layout_width="56dp"
-                android:layout_height="56dp"
-                android:background="#4A5C6B"
-                android:layout_marginEnd="16dp"
-                android:backgroundTintMode="src_in"
-                android:clipToOutline="true"
-                android:shape="oval" />
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_user"
+           />
 
             <LinearLayout
                 android:orientation="vertical"
@@ -282,6 +280,7 @@
             android:gravity="center_vertical"
             android:paddingStart="24dp"
             android:paddingEnd="24dp"
+            android:paddingTop="24dp"
             android:orientation="horizontal"
             android:clipToOutline="true"
             android:elevation="2dp"
@@ -346,11 +345,10 @@
                 android:id="@+id/closeButton"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
+                android:backgroundTint="@color/main2"
                 android:src="@drawable/ic_close_btn"
-                android:elevation="2dp"
-                android:backgroundTintMode="src_in"
-                android:clipToOutline="true"
-                android:background="@drawable/circle_background_peach" />
+
+            />
         </LinearLayout>
 
     </LinearLayout>

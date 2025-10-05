@@ -4,6 +4,13 @@
     <selectionStates>
       <SelectionState runConfigName="mHEALTH.app">
         <option name="selectionMode" value="DIALOG" />
+        <DropdownSelection timestamp="2025-10-05T20:15:15.100939400Z">
+          <Target type="DEFAULT_BOOT">
+            <handle>
+              <DeviceId pluginId="PhysicalDevice" identifier="serial=RZ8WB01K0AW" />
+            </handle>
+          </Target>
+        </DropdownSelection>
         <DialogSelection>
           <targets>
             <Target type="DEFAULT_BOOT">

@@ -129,8 +129,9 @@ public class OnTripActivity extends BaseActivity {
             Toast.makeText(this, "Panic alert sent!", Toast.LENGTH_SHORT).show();
         });
 
-        menuButton.setOnClickListener(v ->
-                Toast.makeText(this, "Menu clicked", Toast.LENGTH_SHORT).show());
+        menuButton.setOnClickListener(v -> {
+            toggleDrawer();
+        });
     }
 
     @Override

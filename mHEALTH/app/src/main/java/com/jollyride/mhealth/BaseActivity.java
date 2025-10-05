@@ -18,6 +18,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class BaseActivity extends AppCompatActivity {
 
@@ -87,9 +88,56 @@ public class BaseActivity extends AppCompatActivity {
                 int id = item.getItemId();
 
                 if (id == R.id.nav_profile) {
-                    Toast.makeText(this, "Profile clicked", Toast.LENGTH_SHORT).show();
+                    FirebaseFirestore db = FirebaseFirestore.getInstance();
+                    String uid = FirebaseAuth.getInstance().getCurrentUser() != null
+                            ? FirebaseAuth.getInstance().getCurrentUser().getUid()
+                            : null;
+
+                    if (uid == null) {
+                        Toast.makeText(BaseActivity.this, "User not logged in", Toast.LENGTH_SHORT).show();
+                        if (drawerLayout != null) {
+                            drawerLayout.closeDrawer(GravityCompat.END);
+                        }
+                        return true;
+                    }
+
+                    // Fetch userType asynchronously
+                    db.collection("users").document(uid)
+                            .get()
+                            .addOnSuccessListener(documentSnapshot -> {
+                                if (documentSnapshot.exists()) {
+                                    String userType = documentSnapshot.getString("userType");
+                                    if ("driver".equalsIgnoreCase(userType)) {
+                                        startActivity(new Intent(BaseActivity.this, ProfileActivity.class));
+                                    } else {
+                                        startActivity(new Intent(BaseActivity.this, UserDetailsActivity.class));
+                                    }
+                                } else {
+                                    Toast.makeText(BaseActivity.this, "User profile not found", Toast.LENGTH_SHORT).show();
+                                }
+                                if (drawerLayout != null) {
+                                    drawerLayout.closeDrawer(GravityCompat.END);
+                                }
+                            })
+                            .addOnFailureListener(e -> {
+                                Toast.makeText(BaseActivity.this, "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                                if (drawerLayout != null) {
+                                    drawerLayout.closeDrawer(GravityCompat.END);
+                                }
+                            });
+
+                    return true;
+
+                }
+
+                else if (id == R.id.nav_ride_history) {
+                    startActivity(new Intent(this, RideHistoryActivity.class));
+                } else if (id == R.id.nav_faq) {
+                    startActivity(new Intent(this, ActivityFAQ.class));
                 } else if (id == R.id.nav_settings) {
-                    Toast.makeText(this, "Settings clicked", Toast.LENGTH_SHORT).show();
+                    startActivity(new Intent(this, ProfileActivity.class));
+                } else if (id == R.id.nav_terms) {
+                    startActivity(new Intent(this, TermsConditionsActivity.class));
                 } else if (id == R.id.nav_logout) {
                     FirebaseAuth.getInstance().signOut();
                     startActivity(new Intent(this, SignInActivity.class));
@@ -99,11 +147,13 @@ public class BaseActivity extends AppCompatActivity {
                 }
 
                 if (drawerLayout != null) {
-                    drawerLayout.closeDrawer(GravityCompat.END);
+                    drawerLayout.closeDrawer(GravityCompat.END); // or START if drawer opens from left
                 }
+
                 return true;
             });
         }
+
 
         if (rightImage != null) {
             rightImage.setOnClickListener(v -> toggleDrawer());

@@ -19,7 +19,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.GeoPoint;
 import com.jollyride.mhealth.R;
 
-public class DriverEndTripActivity extends AppCompatActivity {
+public class DriverEndTripActivity extends BaseActivity {
 
     private ImageView leftImage, rightImage;
     private TextView centerText;
@@ -76,7 +76,9 @@ public class DriverEndTripActivity extends AppCompatActivity {
         leftImage.setImageResource(R.drawable.icon_back_btn);
         leftImage.setOnClickListener(v -> onBackPressed());
 
-        rightImage.setOnClickListener(v -> Toast.makeText(this, "Menu clicked", Toast.LENGTH_SHORT).show());
+        rightImage.setOnClickListener(v -> {
+            toggleDrawer();
+        });
 
         confirmButton.setOnClickListener(v -> {
             Intent intent = new Intent(DriverEndTripActivity.this, DriverReceiptActivity.class);

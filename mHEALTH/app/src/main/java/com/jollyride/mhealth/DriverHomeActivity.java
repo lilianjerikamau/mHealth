@@ -47,7 +47,7 @@ public class DriverHomeActivity extends BaseActivity {
         preferredDestinationInput = findViewById(R.id.preferred_destination);
         goOnlineButton = findViewById(R.id.go_online_button);
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
-
+        rightImage.setOnClickListener(v -> toggleDrawer());
         if (!Places.isInitialized()) {
             Places.initialize(getApplicationContext(), getString(R.string.google_maps_key));
         }

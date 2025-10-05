@@ -17,7 +17,7 @@ import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.ListenerRegistration;
 
-public class ArrivedActivity extends AppCompatActivity {
+public class ArrivedActivity extends BaseActivity {
 
     private ImageView leftImage, rightImage, callButton, cancelButton;
     private TextView centerText;
@@ -60,10 +60,10 @@ public class ArrivedActivity extends AppCompatActivity {
 
         // Click listeners
         leftImage.setOnClickListener(v -> finish());
-
-        rightImage.setOnClickListener(v ->
-                Toast.makeText(this, "Menu clicked", Toast.LENGTH_SHORT).show()
-        );
+        
+        rightImage.setOnClickListener(v -> {
+            toggleDrawer();
+        });
 
         imComingButton.setOnClickListener(v -> {
             progressBar.setVisibility(View.VISIBLE);

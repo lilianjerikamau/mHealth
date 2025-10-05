@@ -26,7 +26,7 @@ import com.google.firebase.firestore.ListenerRegistration;
 import com.google.android.gms.maps.model.LatLng;
 import com.jollyride.mhealth.widget.CustomRouteView;
 
-public class DriverOnTripActivity extends AppCompatActivity {
+public class DriverOnTripActivity extends BaseActivity {
 
     private static final int REQUEST_CODE_PANIC_REASON = 101;
     private static final int REQUEST_CODE_LOCATION_PERMISSION = 200;
@@ -69,7 +69,9 @@ public class DriverOnTripActivity extends AppCompatActivity {
 
         // Top bar actions
         leftImage.setOnClickListener(v -> onBackPressed());
-        rightImage.setOnClickListener(v -> Toast.makeText(this, "Menu clicked", Toast.LENGTH_SHORT).show());
+        rightImage.setOnClickListener(v -> {
+            toggleDrawer();
+        });
 
         // Panic button
         buttonPanic.setOnClickListener(v -> {

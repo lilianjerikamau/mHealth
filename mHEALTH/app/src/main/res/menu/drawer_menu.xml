@@ -1,12 +1,20 @@
-<!-- res/menu/drawer_menu.xml -->
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:id="@+id/nav_profile"
         android:title="Profile"
-        android:icon="@drawable/ic_user"/>
+        android:icon="@drawable/ic_user" />
+    <item android:id="@+id/nav_ride_history"
+        android:title="Ride History"
+        android:icon="@drawable/ic_ride_history" />
+    <item android:id="@+id/nav_faq"
+        android:title="FAQ"
+        android:icon="@drawable/message" />
     <item android:id="@+id/nav_settings"
         android:title="Settings"
-        android:icon="@drawable/ambulance"/>
+        android:icon="@drawable/ic_star" />
+    <item android:id="@+id/nav_terms"
+        android:title="Terms &amp; Conditions"
+        android:icon="@drawable/ic_terms" />
     <item android:id="@+id/nav_logout"
         android:title="Logout"
-        android:icon="@drawable/ic_hospital_marker"/>
+        android:icon="@drawable/ic_menu" />
 </menu>
