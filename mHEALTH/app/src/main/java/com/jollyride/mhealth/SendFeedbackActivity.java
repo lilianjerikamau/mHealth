@@ -17,7 +17,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.util.HashMap;
 import java.util.Map;
 
-public class SendFeedbackActivity extends AppCompatActivity {
+public class SendFeedbackActivity extends BaseActivity {
 
     private ImageView driverImage;
     private TextView driverName, driverSerial, ratingDescription;

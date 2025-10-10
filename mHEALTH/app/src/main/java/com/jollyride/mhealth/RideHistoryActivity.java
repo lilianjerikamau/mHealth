@@ -2,6 +2,8 @@ package com.jollyride.mhealth;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -24,7 +26,7 @@ import com.jollyride.mhealth.helper.RideHistoryItem;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RideHistoryActivity extends AppCompatActivity {
+public class RideHistoryActivity extends BaseActivity {
 
     private static final String TAG = "RideHistoryActivity";
 
@@ -95,6 +97,7 @@ public class RideHistoryActivity extends AppCompatActivity {
             String status = doc.getString("status");
             GeoPoint pickup = doc.getGeoPoint("pickupLocation");
             GeoPoint destination = doc.getGeoPoint("destination");
+
             double fare = 0.0;
             if (doc.contains("fare")) {
                 Object fareObj = doc.get("fare");
@@ -102,6 +105,7 @@ public class RideHistoryActivity extends AppCompatActivity {
                     fare = ((Number) fareObj).doubleValue();
                 }
             }
+
             com.google.firebase.Timestamp timestamp = doc.getTimestamp("timestamp");
 
             RideHistoryItem item = new RideHistoryItem(
@@ -117,5 +121,15 @@ public class RideHistoryActivity extends AppCompatActivity {
         }
 
         adapter.notifyDataSetChanged();
+
+        TextView emptyStateText = findViewById(R.id.tv_empty_state);
+        if (rideHistoryItems.isEmpty()) {
+            emptyStateText.setVisibility(View.VISIBLE);
+            recyclerView.setVisibility(View.GONE);
+        } else {
+            emptyStateText.setVisibility(View.GONE);
+            recyclerView.setVisibility(View.VISIBLE);
+        }
     }
+
 }

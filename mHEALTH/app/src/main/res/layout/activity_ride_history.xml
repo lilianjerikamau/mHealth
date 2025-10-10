@@ -15,11 +15,15 @@
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/topAppBar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:title="Ride history"
-            app:navigationIcon="@drawable/icon_back_btn" />
+            android:layout_height="match_parent"
+            android:background="@color/main2"
+            app:navigationIcon="@drawable/icon_back_btn"
+            app:title="Ride History"
+            app:titleCentered="true"
+            app:titleTextColor="@android:color/black" />
     </com.google.android.material.appbar.AppBarLayout>
 
+    <!-- RecyclerView for ride history -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rideHistoryRecyclerView"
         android:layout_width="match_parent"
@@ -30,4 +34,15 @@
         android:scrollbars="vertical"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
+    <!-- Empty state message -->
+    <TextView
+        android:id="@+id/tv_empty_state"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="No rides recorded"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:textColor="@android:color/darker_gray"
+        android:layout_gravity="center"
+        android:visibility="gone" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

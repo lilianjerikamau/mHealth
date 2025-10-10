@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         app:navigationIcon="@drawable/icon_back_btn"
-        app:title="FAQa"
+        app:title="FAQs"
         app:titleCentered="true"
         app:titleTextColor="@android:color/black" />
 
@@ -132,7 +132,7 @@
                 android:layout_height="wrap_content"
                 android:text="Price higher than expected"
                 style="@style/TextAppearance.Material3.BodyMedium"
-                android:textColor="@android:color/darker_gray"
+                android:textColor="@android:color/black"
                 android:padding="12dp" />
 
             <com.google.android.material.divider.MaterialDivider
@@ -144,7 +144,7 @@
                 android:layout_height="wrap_content"
                 android:text="Using a coupon"
                 style="@style/TextAppearance.Material3.BodyMedium"
-                android:textColor="@android:color/darker_gray"
+                android:textColor="@android:color/black"
                 android:padding="12dp" />
 
         </LinearLayout>

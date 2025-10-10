@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="#B6D5E0"
+    android:background="@color/main2"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -17,7 +17,7 @@
             android:layout_height="match_parent"
             android:background="@color/main2"
             app:navigationIcon="@drawable/icon_back_btn"
-            app:title="Profile"
+            app:title="Settings"
             app:titleCentered="true"
             app:titleTextColor="@android:color/black" />
     </com.google.android.material.appbar.AppBarLayout>
@@ -47,7 +47,7 @@
                     android:id="@+id/profile_image"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:scaleType="centerCrop"
+                    android:scaleType="fitCenter"
                     android:src="@drawable/ic_user_driver"
                     app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Full" />
 
@@ -97,16 +97,18 @@
 
                 <!-- Ride history -->
                 <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/card_ride_history"
                     android:layout_width="0dp"
                     android:layout_height="140dp"
                     android:layout_columnWeight="1"
                     android:layout_rowWeight="1"
                     android:layout_margin="8dp"
                     app:cardCornerRadius="16dp"
-                    app:cardElevation="8dp"
+                    app:cardElevation="5dp"
+                    app:strokeWidth="0.5dp"
                     android:clickable="true"
                     android:focusable="true"
-                    android:foreground="?attr/selectableItemBackground">
+                    >
 
                     <LinearLayout
                         android:orientation="vertical"
@@ -134,16 +136,18 @@
 
                 <!-- Terms -->
                 <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/card_terms"
                     android:layout_width="0dp"
                     android:layout_height="140dp"
                     android:layout_columnWeight="1"
                     android:layout_rowWeight="1"
                     android:layout_margin="8dp"
                     app:cardCornerRadius="16dp"
-                    app:cardElevation="8dp"
+                    app:cardElevation="5dp"
+                    app:strokeWidth="0.5dp"
                     android:clickable="true"
                     android:focusable="true"
-                    android:foreground="?attr/selectableItemBackground">
+                    >
 
                     <LinearLayout
                         android:orientation="vertical"
@@ -171,16 +175,18 @@
 
                 <!-- Promocode -->
                 <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/card_promocode"
                     android:layout_width="0dp"
                     android:layout_height="140dp"
                     android:layout_columnWeight="1"
                     android:layout_rowWeight="1"
                     android:layout_margin="8dp"
                     app:cardCornerRadius="16dp"
-                    app:cardElevation="8dp"
+                    app:cardElevation="5dp"
+                    app:strokeWidth="0.5dp"
                     android:clickable="true"
                     android:focusable="true"
-                    android:foreground="?attr/selectableItemBackground">
+                    >
 
                     <LinearLayout
                         android:orientation="vertical"
@@ -208,16 +214,18 @@
 
                 <!-- Support -->
                 <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/card_support"
                     android:layout_width="0dp"
                     android:layout_height="140dp"
                     android:layout_columnWeight="1"
                     android:layout_rowWeight="1"
                     android:layout_margin="8dp"
                     app:cardCornerRadius="16dp"
-                    app:cardElevation="8dp"
+                    app:cardElevation="5dp"
+                    app:strokeWidth="0.5dp"
                     android:clickable="true"
                     android:focusable="true"
-                    android:foreground="?attr/selectableItemBackground">
+                  >
 
                     <LinearLayout
                         android:orientation="vertical"

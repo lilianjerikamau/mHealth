@@ -15,7 +15,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-public class RideDetailsActivity extends AppCompatActivity {
+public class RideDetailsActivity extends BaseActivity {
 
     private TextView fromAddress, toAddress, userName, gender, sn, amount, dateTime;
     private LinearLayout driverDetail;

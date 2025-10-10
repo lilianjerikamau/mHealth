@@ -16,7 +16,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-public class DriverReceiptActivity extends AppCompatActivity {
+public class DriverReceiptActivity extends BaseActivity {
 
     private TextView textPickup, textDestination, timeText, fareAmount, paymentMethod;
     private MaterialButton buttonOk;

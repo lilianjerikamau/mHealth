@@ -23,7 +23,7 @@ import com.google.firebase.firestore.ListenerRegistration;
 import com.jollyride.mhealth.helper.DistanceUtils;
 import com.jollyride.mhealth.widget.CustomRouteView;
 
-public class DriverContinueActivity extends AppCompatActivity {
+public class DriverContinueActivity extends BaseActivity {
 
     private FirebaseFirestore db;
     private FusedLocationProviderClient fusedLocationClient;

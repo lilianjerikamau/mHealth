@@ -13,7 +13,7 @@ import com.jollyride.mhealth.helper.AmbulanceModel;
 
 import java.util.ArrayList;
 
-public class BookingReadyActivity extends AppCompatActivity {
+public class BookingReadyActivity extends BaseActivity {
 
     private ImageView menuIcon;
     private Button nextButton;

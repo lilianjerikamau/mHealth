@@ -8,6 +8,7 @@
 
     <!-- Toolbar -->
     <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         app:navigationIcon="@drawable/icon_back_btn"
@@ -43,7 +44,7 @@
                 android:text="Simon Chao"
                 android:textSize="20sp"
                 android:textStyle="bold"
-                android:layout_marginTop="12dp"/>
+                android:layout_marginTop="12dp" />
 
             <!-- Card Info -->
             <com.google.android.material.card.MaterialCardView
@@ -55,32 +56,40 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:background="@drawable/rounded_map_background"
                     android:orientation="vertical"
                     android:padding="16dp">
 
                     <com.google.android.material.textview.MaterialTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:text="+211 912 345 678"
-                        style="@style/TextAppearance.Material3.BodyLarge"/>
+                        style="@style/TextAppearance.Material3.BodyLarge" />
 
-                    <View android:layout_width="match_parent"
+                    <View
+                        android:layout_width="match_parent"
                         android:layout_height="1dp"
-                        android:background="?attr/colorOutline"/>
+                        android:background="?attr/colorOutline" />
 
                     <com.google.android.material.textview.MaterialTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:text="simon@jos-ss.org"
                         style="@style/TextAppearance.Material3.BodyLarge"
-                        android:paddingTop="8dp"/>
+                        android:paddingTop="8dp" />
 
-                    <View android:layout_width="match_parent"
+                    <View
+                        android:layout_width="match_parent"
                         android:layout_height="1dp"
-                        android:background="?attr/colorOutline"/>
+                        android:background="?attr/colorOutline" />
 
                     <com.google.android.material.textview.MaterialTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:text="chao24"
                         style="@style/TextAppearance.Material3.BodyLarge"
-                        android:paddingTop="8dp"/>
+                        android:paddingTop="8dp" />
 
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
@@ -88,18 +97,34 @@
             <!-- Settings -->
             <TextView
                 android:layout_width="wrap_content"
-                android:layout_gravity="start"
                 android:layout_height="wrap_content"
+                android:layout_gravity="start"
                 android:text="Notifications"
                 android:textStyle="bold"
-                android:layout_marginTop="24dp"/>
+                android:layout_marginTop="24dp" />
 
-            <Switch
-                android:id="@+id/switch_notifications"
-                android:layout_gravity="start"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="For receiving driver messages"/>
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginTop="8dp">
+
+                <TextView
+                    android:id="@+id/tv_notifications_label"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="For receiving driver messages"
+                    android:textSize="16sp"
+                    android:textColor="@android:color/black" />
+
+                <Switch
+                    android:id="@+id/switch_notifications"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+
 
             <TextView
                 android:layout_width="wrap_content"
@@ -107,17 +132,17 @@
                 android:layout_gravity="start"
                 android:text="Delete Account"
                 android:textStyle="bold"
-                android:layout_marginTop="16dp"/>
+                android:layout_marginTop="16dp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Sign-Off"
                 android:layout_gravity="start"
+                android:text="Sign-Off"
                 android:textStyle="bold"
-                android:layout_marginTop="16dp"/>
+                android:layout_marginTop="16dp" />
 
-
+            <!-- Update Account Button -->
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_update_account"
                 android:layout_width="match_parent"
@@ -128,12 +153,9 @@
                 android:textColor="@color/main2"
                 android:textSize="20sp"
                 app:cornerRadius="15dp"
-
                 android:elevation="2dp"
-
                 android:clipToOutline="true"
-                android:layout_marginTop="50dp"
-                />
+                android:layout_marginTop="50dp" />
 
         </LinearLayout>
     </ScrollView>

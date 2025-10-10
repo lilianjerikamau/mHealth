@@ -1,38 +1,35 @@
 package com.jollyride.mhealth;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.appbar.MaterialToolbar;
-import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.imageview.ShapeableImageView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-public class ProfileActivity extends BaseActivity {
+public class UserProfileActivity extends BaseActivity {
 
     private ShapeableImageView profileImage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_profile);
+        setContentView(R.layout.profile_activity);
 
-        // Toolbar setup
+        // Initialize views
         MaterialToolbar toolbar = findViewById(R.id.toolbar);
-        toolbar.setNavigationOnClickListener(v -> onBackPressed());
-
-        // Profile image
         profileImage = findViewById(R.id.profile_image);
 
-        // Firebase setup
+        // Toolbar back button
+        toolbar.setNavigationOnClickListener(v -> onBackPressed());
+
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         FirebaseAuth auth = FirebaseAuth.getInstance();
 
-        // Get user ID
+        // Get current user ID
         String uid = auth.getCurrentUser() != null ? auth.getCurrentUser().getUid() : null;
 
         if (uid == null) {
@@ -40,7 +37,6 @@ public class ProfileActivity extends BaseActivity {
             return;
         }
 
-        // Load profile type and image
         db.collection("users").document(uid)
                 .get()
                 .addOnSuccessListener(documentSnapshot -> {
@@ -52,41 +48,12 @@ public class ProfileActivity extends BaseActivity {
                         } else {
                             profileImage.setImageResource(R.drawable.ic_user);
                         }
+                    } else {
+                        Toast.makeText(this, "User data not found", Toast.LENGTH_SHORT).show();
                     }
                 })
                 .addOnFailureListener(e ->
                         Toast.makeText(this, "Error loading profile: " + e.getMessage(), Toast.LENGTH_SHORT).show()
                 );
-
-        // === Grid Click Actions ===
-        MaterialCardView cardRideHistory = findViewById(R.id.card_ride_history);
-        MaterialCardView cardTerms = findViewById(R.id.card_terms);
-        MaterialCardView cardPromocode = findViewById(R.id.card_promocode);
-        MaterialCardView cardSupport = findViewById(R.id.card_support);
-
-        // Ride History
-        cardRideHistory.setOnClickListener(v -> {
-            Intent intent = new Intent(this, RideHistoryActivity.class);
-            startActivity(intent);
-        });
-
-
-        // Terms
-        cardTerms.setOnClickListener(v -> {
-            Intent intent = new Intent(this, TermsConditionsActivity.class);
-            startActivity(intent);
-        });
-
-        // Promocode
-        cardPromocode.setOnClickListener(v -> {
-            Intent intent = new Intent(this, PromoActivity.class);
-            startActivity(intent);
-        });
-
-        // Support
-        cardSupport.setOnClickListener(v -> {
-            Intent intent = new Intent(this, SupportActivity.class);
-            startActivity(intent);
-        });
     }
 }

@@ -8,7 +8,7 @@ import androidx.appcompat.widget.Toolbar;
 
 import android.widget.TextView;
 
-public class UserDetailsActivity extends AppCompatActivity {
+public class UserDetailsActivity extends BaseActivity {
 
     private TextView userName, gender, sn, rating, likes, membershipDuration;
     private TextView memberSince, vehicleType, plateNumber;

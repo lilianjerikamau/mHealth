@@ -11,7 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.button.MaterialButton;
 
-public class ShowCancelActivity extends AppCompatActivity {
+public class ShowCancelActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

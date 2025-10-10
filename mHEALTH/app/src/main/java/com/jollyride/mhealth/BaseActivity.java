@@ -107,11 +107,8 @@ public class BaseActivity extends AppCompatActivity {
                             .addOnSuccessListener(documentSnapshot -> {
                                 if (documentSnapshot.exists()) {
                                     String userType = documentSnapshot.getString("userType");
-                                    if ("driver".equalsIgnoreCase(userType)) {
-                                        startActivity(new Intent(BaseActivity.this, ProfileActivity.class));
-                                    } else {
-                                        startActivity(new Intent(BaseActivity.this, UserDetailsActivity.class));
-                                    }
+                                        startActivity(new Intent(BaseActivity.this, UserProfileActivity.class));
+
                                 } else {
                                     Toast.makeText(BaseActivity.this, "User profile not found", Toast.LENGTH_SHORT).show();
                                 }
@@ -130,15 +127,10 @@ public class BaseActivity extends AppCompatActivity {
 
                 }
 
-                else if (id == R.id.nav_ride_history) {
-                    startActivity(new Intent(this, RideHistoryActivity.class));
-                } else if (id == R.id.nav_faq) {
-                    startActivity(new Intent(this, ActivityFAQ.class));
-                } else if (id == R.id.nav_settings) {
+              else if (id == R.id.nav_settings) {
                     startActivity(new Intent(this, ProfileActivity.class));
-                } else if (id == R.id.nav_terms) {
-                    startActivity(new Intent(this, TermsConditionsActivity.class));
-                } else if (id == R.id.nav_logout) {
+                }
+                else if (id == R.id.nav_logout) {
                     FirebaseAuth.getInstance().signOut();
                     startActivity(new Intent(this, SignInActivity.class));
                     finish();

@@ -148,6 +148,20 @@
             android:name=".ActivityFAQ"
             android:exported="false" />
 
+        <activity
+            android:name=".PromoActivity"
+            android:exported="false" />
+        <activity
+            android:name=".UserProfileActivity"
+            android:exported="false" />
+        <activity
+            android:name=".SupportActivity"
+            android:exported="false" />
+        <activity
+            android:name=".AddPromoCodeActivity"
+            android:exported="false" />
+
+
 
         <activity
             android:name=".SplashActivity"

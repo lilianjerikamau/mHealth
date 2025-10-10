@@ -18,7 +18,7 @@ import com.jollyride.mhealth.helper.AmbulanceModel;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SearchAmbulanceActivity extends AppCompatActivity {
+public class SearchAmbulanceActivity extends BaseActivity {
 
     private static final String TAG = "GET_SEARCH";
 

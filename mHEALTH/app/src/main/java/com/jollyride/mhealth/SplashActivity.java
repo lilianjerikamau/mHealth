@@ -67,28 +67,25 @@ public class SplashActivity extends BaseActivity {
 
     private void loadLoginDetails() {
         try {
-            startActivity(new Intent(SplashActivity.this, MainActivity.class));
-            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
-            finish();
-//            String masterKeyAlias = MasterKeys.getOrCreate(MasterKeys.AES256_GCM_SPEC);
-//
-//            SharedPreferences sharedPreferences = EncryptedSharedPreferences.create(
-//                    "secure_login_prefs",
-//                    masterKeyAlias,
-//                    this,
-//                    EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
-//                    EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
-//            );
-//
-//            if (sharedPreferences.contains("username")){
-//                startActivity(new Intent(SplashActivity.this, SignInActivity.class));
-//                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
-//                finish();
-//            }else{
-//                startActivity(new Intent(SplashActivity.this, MainActivity.class));
-//                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
-//                finish();
-//            }
+            String masterKeyAlias = MasterKeys.getOrCreate(MasterKeys.AES256_GCM_SPEC);
+
+            SharedPreferences sharedPreferences = EncryptedSharedPreferences.create(
+                    "secure_login_prefs",
+                    masterKeyAlias,
+                    this,
+                    EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
+                    EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
+            );
+
+            if (sharedPreferences.contains("username")){
+                startActivity(new Intent(SplashActivity.this, SignInActivity.class));
+                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                finish();
+            }else{
+                startActivity(new Intent(SplashActivity.this, MainActivity.class));
+                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                finish();
+            }
 
             /*if (sharedPreferences.contains("username") &&
                     sharedPreferences.contains("phone") &&

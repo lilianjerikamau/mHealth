@@ -11,7 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.material.radiobutton.MaterialRadioButton;
 import com.google.android.material.textfield.TextInputEditText;
 
-public class PanicReasonActivity extends AppCompatActivity {
+public class PanicReasonActivity extends BaseActivity {
 
     private MaterialRadioButton radioNoShare, radioCantContact, radioDriverLate,
             radioPriceNotReasonable, radioPickupIncorrect, radioOthers;
